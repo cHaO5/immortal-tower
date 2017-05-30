@@ -8,14 +8,15 @@ USING_NS_CC;
 class Mouse :public Layer
 {
 public:
-	CREATE_FUNC(Mouse);
+	//CREATE_FUNC(Mouse);
 	virtual bool init();
 	void startM();
 	void stopM();
 	bool onTouchBegan(Touch *touch, Event * unused_event);
 
 	Player* _player;
-
+	TMXTiledMap *_tileMap;//µ±Ç°µØÍ¼
+	TMXLayer *_meta;
 
 };
 

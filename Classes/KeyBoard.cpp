@@ -6,6 +6,7 @@ bool KeyBoard::init()
 	{
 		return false;
 	}
+	this->scheduleUpdate();
 	return true;
 }
 
@@ -48,28 +49,41 @@ void KeyBoard::keyPressedDuration(EventKeyboard::KeyCode code)
 {
 	auto playerPos = _player->_player->getPosition();
 	int offsetX = 0, offsetY = 0;
+	bool ref = true;
 	switch (code)
 	{
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-		offsetX = -16;
+		offsetX = -_tileMap->getTileSize().width;
+		playerPos.x += offsetX;
+		playerPos.x -= (_tileMap->getTileSize().width / 2)- 2;
+		ref = this->_player->setPlayerPosition(playerPos);
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-		offsetX = 16;
+		offsetX = _tileMap->getTileSize().width;
+        playerPos.x += (_tileMap->getTileSize().width / 2) - 2;
+		playerPos.x += offsetX;
+		ref = this->_player->setPlayerPosition(playerPos);
 		break;
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
-		offsetY = 16;
+		offsetY = _tileMap->getTileSize().height;
+		playerPos.y += (_tileMap->getTileSize().height / 2) - 2;
+		playerPos.y += offsetY;
+		ref = this->_player->setPlayerPosition(playerPos);
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		offsetY = -16;
+		offsetY = -_tileMap->getTileSize().height;
+		playerPos.y -= (_tileMap->getTileSize().height / 2) - 2;
+		playerPos.y += offsetY;
+		ref = this->_player->setPlayerPosition(playerPos);
 		break;
 	default:
 		offsetY = offsetX = 0;
 		break;
 	}
-	playerPos.x += offsetX;
-	playerPos.y += offsetY;
-	bool ref = true;
-	ref = this->_player->setPlayerPosition(playerPos);
+	//playerPos.x += offsetX;
+	//playerPos.y += offsetY;
+	//bool ref = true;
+	//ref = this->_player->setPlayerPosition(playerPos);
 	if (ref == false)
 	{
 		offsetY = offsetX = 0;

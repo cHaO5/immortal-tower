@@ -33,7 +33,6 @@ public:
 	TMXTiledMap *_tileMap;//µØÍ¼
 private:
 	Monster* monster;
-	TMXLayer *_background;
 	TMXLayer *_meta;//ÕÏ°­Îï
 	TMXLayer *_fruit;//Î÷¹Ï
 	KeyBoard* keyBoard;

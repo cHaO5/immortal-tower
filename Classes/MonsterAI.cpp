@@ -6,7 +6,7 @@ extern bool reduceblood;
 //启动监听
 void MonsterAI::StartListen()
 {
-	monsterDirection = -1;
+	//monsterDirection = -1;
 	this->schedule(schedule_selector(MonsterAI::FollowRun), 2.0f);
 }
 
@@ -52,8 +52,8 @@ void MonsterAI::JudegeAttack(float dt)
 	projectile->setPosition(Point(this->getParent()->getPosition().x, this->getParent()->getPosition().y));
 	log("%f,%f", projectile->getPosition().x, projectile->getPosition().y);
 
-    this->getParent()->getParent()->addChild(projectile,2);//为什么总是在hero后面¬_¬
-	
+    this->getParent()->getParent()->addChild(projectile);//为什么总是在hero后面¬_¬
+	projectile->setGlobalZOrder(1);
 	//不能生成一次就只查一次啊，要从生成那刻开始不停地更
 	//新状态直到被销毁那就应该在这里有个计时器，但是什么计时器可以支持有参数地函数更新呢
 

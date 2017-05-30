@@ -32,7 +32,7 @@ public:
 	TMXLayer *_fruit;
 	Sprite* proj;
 
-	int monsterDirection;
+	//int monsterDirection;
 	float   dis;//当前怪物和英雄的距离
 };
 

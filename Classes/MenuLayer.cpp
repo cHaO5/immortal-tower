@@ -31,7 +31,7 @@ void MenuLayer::createBG()
 void MenuLayer::createButton(cocos2d::Point centerPoint)
 {
 	//Start mutton
-	MenuItemImage* menuItem = MenuItemImage::create("start_n.png","start_s.png",CC_CALLBACK_0(MenuLayer::start, this));
+	MenuItemImage* menuItem = MenuItemImage::create("start_s.png","start_n.png",CC_CALLBACK_0(MenuLayer::start, this));
 	
 	Menu* menu = Menu::create(menuItem, NULL);
 

@@ -13,7 +13,7 @@ class WinLayer : public cocos2d::Layer
 {
 public:
 	virtual bool init();
-	CREATE_FUNC(WinLayer);
+	//CREATE_FUNC(WinLayer);
 	void setViewpointCenter(float dt);
 
 	Player* _player;

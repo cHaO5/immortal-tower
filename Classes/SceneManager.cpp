@@ -31,14 +31,19 @@ void SceneManager::toGameScene()
 
 	auto sliderLayer = Layer::create();
     slider = Slider::create();
-	gameScene->addChild(sliderLayer,3);
-	sliderLayer->addChild(slider,4);
+	gameScene->addChild(sliderLayer);
+	sliderLayer->setGlobalZOrder(5);
+	sliderLayer->addChild(slider);
+	slider->setGlobalZOrder(5);
 
-	Sprite*fog = Sprite::create("fog.png");
+	Sprite*fog = Sprite::create("fog2.png");
+	//auto visibleSize = Director::getInstance()->getVisibleSize();
 	auto winSize = Director::getInstance()->getWinSize();
 	auto centerPoint = Point(winSize.width / 2, winSize.height / 2);
 	fog->setPosition(centerPoint);
-	sliderLayer->addChild(fog,3);
+	fog->setGlobalZOrder(4);
+	sliderLayer->addChild(fog);
+	
 
 	Director::getInstance()->replaceScene(gameScene);
 	log("1111");

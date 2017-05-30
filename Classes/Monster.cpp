@@ -7,7 +7,7 @@ bool Monster::init()
 	ptm = 0;
 	log("%f,%f", monsterarray[ptm].x, monsterarray[ptm].y);
 	log("yyyyy");
-	srand((unsigned int)time(nullptr));//自动生成怪物?
+	//srand((unsigned int)time(nullptr));//自动生成怪物?
     this->schedule(schedule_selector(Monster::addMonster), 5);//改成了5就不出错了？？？！
 
 
@@ -48,7 +48,8 @@ void Monster::addMonster(float dt)
 	}
 	enemySprite->setPosition(Point(x, y));
 	enemySprite->setAnchorPoint(Point(0, 0));
-	_tileMap->addChild(enemySprite, 1);
+	_tileMap->addChild(enemySprite);
+	enemySprite->setGlobalZOrder(1);
 
 	auto monsterai =new MonsterAI;//控制monster的行为
 	monsterai->_player =_player;
@@ -56,7 +57,7 @@ void Monster::addMonster(float dt)
 	monsterai->_meta = _meta;
 	monsterai->_fruit = _fruit;
 	monsterai->proj = NULL;
-	enemySprite->addChild(monsterai,2);
+	enemySprite->addChild(monsterai);
 	monsterai->StartListen();
 
 	return;
