@@ -16,11 +16,12 @@ bool ControlLayer::init()
 	auto winSize = Director::getInstance()->getWinSize();
 
 	_tileMap = TMXTiledMap::create("_tilemap.tmx");
+
 	this->addChild(_tileMap);
 	_tileMap->getLayer("floor")->setGlobalZOrder(-1);
 	_tileMap->getLayer("wall_1")->setGlobalZOrder(0);
     _tileMap->getLayer("wall_2")->setGlobalZOrder(2);
-	_tileMap->getLayer("collections")->setGlobalZOrder(2);
+	//_tileMap->getLayer("collections")->setGlobalZOrder(2);
 	_tileMap->getLayer("meta")->setGlobalZOrder(3);
 
 	//获取地图中不能行走的区域（墙等障碍物）
