@@ -54,10 +54,44 @@ bool Player::setPlayerPosition(Point position)
 				//auto fruitSprite = _fruit->getTileAt(tileCoord);
 				_meta->removeTileAt(tileCoord);
 				//fruitSprite->removeFromParent();
-				_numCollected++;
+                _numCollected++;
 				return true;
 			}
-			return true;
+            
+            /////////////////////////////////////////////////////////////////////////拾起武器，接口需要修改
+            auto collectable = properties["Collectable"].asString();
+            if ("true" == collectable)
+            {
+                _fruit->removeTileAt(tileCoord);
+                //auto fruitSprite = _fruit->getTileAt(tileCoord);
+                _meta->removeTileAt(tileCoord);
+                //fruitSprite->removeFromParent();
+                _weapon->_damage = PickUpWeapon->damage;
+                _weapon->_range = PickUpWeapon->range;
+                _weapon->_speed = PickUpWeapon->speed;
+                _weapon->_weapon = PickUpWeapon->_weapon;
+                return true;
+            }
+            
+            /////////////////////////////////////////////////////////////////////////人物或者武器的某个属性修改，接口需要修改
+            auto collectable = properties["Collectable"].asString();
+            if ("true" == collectable)
+            {
+                _fruit->removeTileAt(tileCoord);
+                //auto fruitSprite = _fruit->getTileAt(tileCoord);
+                _meta->removeTileAt(tileCoord);
+                //fruitSprite->removeFromParent();
+                switch(PICKUP) {
+                    case DAMAGE : ;break;
+                    case SPEED: ;break;
+                    case RANGE : ;break;
+                    case : ;break;
+                }
+                return true;
+            }
+
+            
+            return true;
 		}
 		return true;
 	}
