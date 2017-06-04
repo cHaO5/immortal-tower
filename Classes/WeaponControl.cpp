@@ -1,14 +1,14 @@
 #include"WeaponControl.h"
 
-void WeaponControl::StartListen()
+void WeaponControl::StartListen(Weapon *weapon)
 {
 	//5 调用nomalize（)来将偏移量化为单位向量
-	int range = 1000;
+	int range = weapon->_range * 100;  //这个参数还要修改
 	auto shootAmount = direction * range;//这是攻击范围属性值
 	 //6 将次向量添加到飞镖的位置上去，这样就有了一个目标位置
 	auto realDest = shootAmount + proj->getPosition();
 
-    auto actionMove = MoveTo::create(2.0f, realDest);
+    auto actionMove = MoveTo::create(weapon->_speed, realDest);
 	auto callFunc2 = CallFuncN::create(CC_CALLBACK_1(WeaponControl::DelayUnschedule, this));
 	auto callFunc1 = CallFuncN::create(CC_CALLBACK_1(WeaponControl::IfActionRemove, this));//这两个function只有在移动过程中没有击中没有提前停止更新并移除才执行的
 	

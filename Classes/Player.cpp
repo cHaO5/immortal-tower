@@ -17,6 +17,9 @@ bool Player::init()
 	_player->setAnchorPoint(Point(0.5, 0.25));
 	this->addChild(_player);
 	_player->setGlobalZOrder(0);
+    
+    _weapon = new Weapon;
+    _weapon->init("weapon1");
 	return true;
 }
 

@@ -3,6 +3,7 @@
 
 #include"cocos2d.h"
 #include"Player.h"
+#include "Weapon.h"
 USING_NS_CC;
 
 class Mouse :public Layer
