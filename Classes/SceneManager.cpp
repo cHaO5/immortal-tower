@@ -36,7 +36,7 @@ void SceneManager::toGameScene()
 	sliderLayer->addChild(slider);
 	slider->setGlobalZOrder(5);
 
-	Sprite*fog = Sprite::create("fog2.png");
+	Sprite*fog = Sprite::create("fog3.png");
 	//auto visibleSize = Director::getInstance()->getVisibleSize();
 	auto winSize = Director::getInstance()->getWinSize();
 	auto centerPoint = Point(winSize.width / 2, winSize.height / 2);

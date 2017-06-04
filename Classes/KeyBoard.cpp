@@ -27,19 +27,19 @@ void KeyBoard::onKeyPressed(EventKeyboard::KeyCode keyCode)
 	{
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
 		keyPressedDuration(EventKeyboard::KeyCode::KEY_UP_ARROW);
-		_player->_player->setTexture("1_4.png");
+		_player->_player->setTexture("U.png");
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 		keyPressedDuration(EventKeyboard::KeyCode::KEY_LEFT_ARROW);
-		_player->_player->setTexture("1_3.png");
+		_player->_player->setTexture("L.png");
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
 		keyPressedDuration(EventKeyboard::KeyCode::KEY_DOWN_ARROW);
-		_player->_player->setTexture("1_1.png");
+		_player->_player->setTexture("D.png");
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 		keyPressedDuration(EventKeyboard::KeyCode::KEY_RIGHT_ARROW);
-		_player->_player->setTexture("1_2.png");
+		_player->_player->setTexture("R.png");
 		break;
 	default:break;
 	}
@@ -54,8 +54,8 @@ void KeyBoard::keyPressedDuration(EventKeyboard::KeyCode code)
 	{
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 		offsetX = -_tileMap->getTileSize().width;
+		playerPos.x -= (_tileMap->getTileSize().width / 2)- 2;//也可以改为getcontentwith边界点判断
 		playerPos.x += offsetX;
-		playerPos.x -= (_tileMap->getTileSize().width / 2)- 2;
 		ref = this->_player->setPlayerPosition(playerPos);
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:

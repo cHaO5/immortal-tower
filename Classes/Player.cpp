@@ -14,6 +14,7 @@ bool Player::init()
 	int x = 3264;//获取错误太多自定义吧
 	int y = 3520;
     _player->setPosition(x, y);
+	_player->setAnchorPoint(Point(0.5, 0.25));
 	this->addChild(_player);
 	_player->setGlobalZOrder(0);
 	return true;

@@ -24,7 +24,7 @@ void Monster::addMonster(float dt)
 	//1 为Monster添加了碰撞属性
 	auto monsterSize = enemySprite->getContentSize();
 	auto physicsBody = PhysicsBody::createBox(Size(monsterSize.width, monsterSize.height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
-	//2 属性设置为Dynamic，这样就能让我们3通过我们刚定义的MoveTo来控制移动//142行
+	//2 属性设置为Dynamic，这样就能让我们3通过我们刚定义的MoveTo来控制移动//
 	physicsBody->setDynamic(true);
 	//3
 	physicsBody->setCategoryBitmask((int)PhysicsCategory::Monster);

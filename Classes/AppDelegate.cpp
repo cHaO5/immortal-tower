@@ -3,10 +3,10 @@
 
 USING_NS_CC;
 
-static cocos2d::Size designResolutionSize = cocos2d::Size(480*4, 320*4);
-static cocos2d::Size smallResolutionSize = cocos2d::Size(480*4, 320*4);
-static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024*4, 768*4);
-static cocos2d::Size largeResolutionSize = cocos2d::Size(2048*4, 1536*4);
+//static cocos2d::Size designResolutionSize = cocos2d::Size(480*4, 320*4);
+//static cocos2d::Size smallResolutionSize = cocos2d::Size(480*4, 320*4);
+//static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024*4, 768*4);
+//static cocos2d::Size largeResolutionSize = cocos2d::Size(2048*4, 1536*4);
 
 AppDelegate::AppDelegate()
 {
@@ -34,33 +34,46 @@ static int register_all_packages()
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
+
+
+	// initialize director
+	auto director = Director::getInstance();
+	auto glview = director->getOpenGLView();
+	if (!glview) {
+		glview = GLViewImpl::createWithRect("OriginalImmortalTower", Rect(0, 0, 960, 640));//设计分辨率
+		glview->setFrameSize(1200, 640);//屏幕分辨率就是外面的框
+		director->setOpenGLView(glview);
+	}
+
+	//缩放？感觉有没有都一样
+	//director->setContentScaleFactor();//资源分辨率把中间运行的部分缩放了整个缩放了
+
+	//director->setDisplayStats(true);
+	director->getOpenGLView()->setDesignResolutionSize(960, 640, ResolutionPolicy::FIXED_HEIGHT);
+
+    // turn on display FPS
+    //director->setDisplayStats(true);
+
+    // set FPS. the default value is 1.0/60 if you don't call this
+   // director->setAnimationInterval(1.0f / 60);
+
+
+	/*
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("OriginalImmortalTower", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
+        glview = GLViewImpl::createWithRect(, cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
 #else
         glview = GLViewImpl::create("OriginalImmortalTower");
 #endif
         director->setOpenGLView(glview);
     }
-	/*
-	//应对多种分辨率
-	Size designSize = Size(480, 320);//设计分辨率
-	Size resourceSize = Size(960, 640);//设备分辨率
-	director->setContentScaleFactor(resourceSize.height / designSize.height);//内容缩放因子
-	director->getOpenGLView()->setDesignResolutionSize(designSize.width, designSize.height, ResolutionPolicy::FIXED_HEIGHT);//设计分辨率大小即模式
-*/
-    // turn on display FPS
-    director->setDisplayStats(true);
-
-    // set FPS. the default value is 1.0/60 if you don't call this
-    director->setAnimationInterval(1.0f / 60);
 
     // Set the design resolution
-    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
-	director->setContentScaleFactor(smallResolutionSize.height / designResolutionSize.height);
+    //glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+	//director->setContentScaleFactor(smallResolutionSize.height / designResolutionSize.height);
 	/*
 	auto frameSize = glview->getFrameSize();
     // if the frame's height is larger than the height of medium size.
@@ -78,11 +91,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
     {        
         director->setContentScaleFactor(MIN(smallResolutionSize.height/designResolutionSize.height, smallResolutionSize.width/designResolutionSize.width));
     }
-*/
-    register_all_packages();
 
+    register_all_packages();
+*/
     // create a scene. it's an autorelease object
-    //为了创造一个指针可以不是运行scene，而是运行create以后运行startscene
+    //为了创造一个指针可以不是运行scene，而是运行create以后运行startscene	
+
 	SceneManager* manager = new SceneManager();
 	manager->createScene();
 	// run

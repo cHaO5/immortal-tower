@@ -17,7 +17,7 @@ void MenuLayer::createBG()
 {
 	auto winSize = Director::getInstance()->getWinSize();
 	auto centerPoint = Point(winSize.width / 2, winSize.height / 2);
-
+	//log("%f,%f", winSize.width, winSize.height);//ÆÁÄ»·Ö±æÂÊ
 	//BG
 	Sprite* spriteBg = Sprite::create("MainBG.png");
 	spriteBg->setPosition(centerPoint);

@@ -18,28 +18,28 @@ void MonsterAI::FollowRun(float dt)
 	//先计算怪物和英雄的距离
 	dis = sqrt(pow(x, 2) + pow(y, 2));
 
-	if (dis >= 700)//当怪物与英雄距离超600
+	if (dis >= 2000)//当怪物与英雄距离超2000
 		return;
-	if (dis <= 600)//在怪物可视范围内，怪物开始移动
+	if (dis <= 1000)//在怪物可视范围内，怪物开始移动
 	{
 		this->unschedule(schedule_selector(MonsterAI::FollowRun));
 	    auto func = CallFuncN::create(CC_CALLBACK_1(MonsterAI::goon,this));//让怪物移动
 		this->getParent()->runAction(Sequence::create(func, NULL));
 
-		if (dis <= 300)//开始攻击攻击已经没问题了
+		if (dis <= 600)//开始攻击攻击已经没问题了
 		{
 			this->schedule(schedule_selector(MonsterAI::JudegeAttack), 2.5f);
 		}
 	}
 }
 
-void MonsterAI::goon(Node *pSender)//默认先向下走，如果遇到障碍就向右不行就向上，再不行就向左（类似于一个默认键盘）然后完成一个类似于player的对障碍的判断
+void MonsterAI::goon(Node *pSender)//此处加入ai算法//默认先向下走，如果遇到障碍就向右不行就向上，再不行就向左（类似于一个默认键盘）然后完成一个类似于player的对障碍的判断
 {
 	auto s = (Sprite*)pSender;//this->getParent();
 	auto move = MoveBy::create(1.0, Point(_player->_player->getPosition().x - s->getPosition().x>0 ? 10 : -10,
 		                                  _player->_player->getPosition().y - s->getPosition().y>0 ? 10 : -10));
 	
-	auto func = CallFuncN::create(CC_CALLBACK_1(MonsterAI::goon, this));
+	auto func = CallFuncN::create(CC_CALLBACK_1(MonsterAI::goon, this));//反复调用移动
 	s->runAction(Sequence::create(move, func, NULL));
 }
 
