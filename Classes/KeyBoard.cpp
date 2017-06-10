@@ -27,19 +27,19 @@ void KeyBoard::onKeyPressed(EventKeyboard::KeyCode keyCode)
 	{
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
 		keyPressedDuration(EventKeyboard::KeyCode::KEY_UP_ARROW);
-		_player->_player->setTexture("1_4.png");
+		_player->_player->setTexture("4.png");
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 		keyPressedDuration(EventKeyboard::KeyCode::KEY_LEFT_ARROW);
-		_player->_player->setTexture("1_3.png");
+		_player->_player->setTexture("3.png");
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
 		keyPressedDuration(EventKeyboard::KeyCode::KEY_DOWN_ARROW);
-		_player->_player->setTexture("1_1.png");
+		_player->_player->setTexture("1.png");
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 		keyPressedDuration(EventKeyboard::KeyCode::KEY_RIGHT_ARROW);
-		_player->_player->setTexture("1_2.png");
+		_player->_player->setTexture("2.png");
 		break;
 	default:break;
 	}

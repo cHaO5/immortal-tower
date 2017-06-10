@@ -20,7 +20,7 @@ public:
 	Player(TMXTiledMap *_tileMap, TMXLayer *_meta, TMXLayer *_fruit) :
 		_tileMap(_tileMap), _meta(_meta), _fruit(_fruit)
 	{
-		_player = Sprite::create("1_1.png");
+		_player = Sprite::create("1.png");
 
 	};
 	//WinLayer* winLayer;
