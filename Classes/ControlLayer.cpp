@@ -87,10 +87,17 @@ bool ControlLayer::onContactBegan(PhysicsContact &contact)//PhysicsContact传递
 	log("123456");
 	auto nodeA = contact.getShapeA()->getBody()->getNode();
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
-	nodeA->removeFromParent();//A是？bug就是经常一群聚在一起的时候射击就会异常因为removefromscene已经移除了一次
+	if (nodeA != NULL)
+	{
+		nodeA->removeFromParent();
+	}
+	//A是？bug就是经常一群聚在一起的时候射击就会异常因为removefromscene已经移除了一次
 	//但是为什么还会运行成功？？？这个是在碰撞时就清除，那个是在不发生碰撞时清除，如果发生了碰撞就已经清除了，
 	//那removefromscene会不会发生错误？？？
-	nodeB->removeFromParent();
+	if (nodeB != NULL)
+	{
+	    nodeB->removeFromParent();
+	}
 	return true;
 }
 
