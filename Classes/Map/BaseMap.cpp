@@ -8,6 +8,9 @@
 #include"Monster/Monster0.h"
 #include"Monster/Monster1.h"
 #include"Monster/Monster2.h"
+#include"Scene/GameScene.h"
+#include"Map/level1.h"
+#include"Map/Level2.h"
 USING_NS_CC;
 
 bool BaseMap::init()
@@ -24,6 +27,22 @@ void BaseMap::LayerFollowPlayer(float t)//需要不停刷新的函数
 	auto follow = Follow::create(GameManager::getInstance()->currentPlayer);
 	this->runAction(follow);
 }
+
+void BaseMap::toNextLevel(float t)
+{
+	if (GameManager::getInstance()->MonsterClearFlag
+		&& (GameManager::getInstance()->currentPlayer->getPosition().x >= GameManager::getInstance()->Level_EndPosition[GameManager::getInstance()->CurrentLevel][0])
+		&& (GameManager::getInstance()->currentPlayer->getPosition().x <= GameManager::getInstance()->Level_EndPosition[GameManager::getInstance()->CurrentLevel][1])
+		&& (GameManager::getInstance()->currentPlayer->getPosition().y >= GameManager::getInstance()->Level_EndPosition[GameManager::getInstance()->CurrentLevel][2])
+		&& (GameManager::getInstance()->currentPlayer->getPosition().y <= GameManager::getInstance()->Level_EndPosition[GameManager::getInstance()->CurrentLevel][3]))
+	{
+		log("transition Scene success");
+	    GameManager::getInstance()->CurrentLevel++;
+		Director::getInstance()->replaceScene(TransitionFade::create(1.0f, GameScene::createScene()));
+		
+	}
+}
+
 /*
 void BaseMap::addMonster()
 {
@@ -98,3 +117,4 @@ void BaseMap::addPlayer()
 	}
 
 }
+

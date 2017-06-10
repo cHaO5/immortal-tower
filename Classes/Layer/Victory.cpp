@@ -1,7 +1,7 @@
 #include "Layer/Victory.h"
 #include "Scene/TransitionGame.h"
 #include "Scene/GameMenuScene.h"
-#include "Scene/GameScene.h"
+#include "Scene/WelcomeScene.h"
 #include "Data/GameManager.h"
 #include"Data/SoundManager.h"
 
@@ -59,5 +59,7 @@ void Victory::RItemAnimation()
 
 void Victory::OnRestartTouch(Ref* pSpender)
 {
-	Director::getInstance()->replaceScene(TransitionGame::create(1.0f, GameScene::createScene()));
+	GameManager::getInstance()->CurrentLevel = 0;
+	GameManager::getInstance()->VictoryFlag = false;
+	Director::getInstance()->replaceScene(TransitionGame::create(1.0f, WelcomeScene::createScene()));
 }

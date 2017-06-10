@@ -74,6 +74,10 @@ void PlayerStateMenu::DetectFailure(float t)
 
 void PlayerStateMenu::DetectVictory(float t)
 {
+	if (GameManager::getInstance()->MonsterClearFlag&&GameManager::getInstance()->CurrentLevel == 2)
+	{
+		GameManager::getInstance()->VictoryFlag = true;
+	}
 	if (GameManager::getInstance()->VictoryFlag)
 	{
 		log("success");

@@ -25,9 +25,6 @@ private:
 	float TileSizeheight = GameManager::getInstance()->TileSizeheight;
 	int MapSizeheight = GameManager::getInstance()->MapSizeheight;
 	int MapSizewidth = GameManager::getInstance()->MapSizewidth;
-	int* logicmap0 = GameManager::getInstance()->Level0LogicMap[0];
-	int* logicmap1 = GameManager::getInstance()->Level1LogicMap[0];
-	int* logicmap2 = GameManager::getInstance()->Level2LogicMap[0];
 };
 
 #endif

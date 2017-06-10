@@ -1,6 +1,6 @@
 #include "Map/level2.h"
-#include"Data\GameManager.h"
-#include"Data\SoundManager.h"
+#include"Data/GameManager.h"
+#include"Data/SoundManager.h"
 USING_NS_CC;
 
 bool Level2::init()
@@ -9,10 +9,10 @@ bool Level2::init()
 	{
 		return false;
 	}
-	floor = Sprite::create(GameManager::getInstance()->levelMap[2][0]);
-	floor->setAnchorPoint(Point(0, 0));
-	floor->setPosition(Point(0, 0));
-	addChild(floor, 0);
+	//floor = Sprite::create(GameManager::getInstance()->levelMap[2][0]);
+	//floor->setAnchorPoint(Point(0, 0));
+	//floor->setPosition(Point(0, 0));
+	//addChild(floor, 0);
 	wall = Sprite::create(GameManager::getInstance()->levelMap[2][1]);
 	wall->setAnchorPoint(Point(0, 0));
 	wall->setPosition(Point(0, 0));
@@ -24,8 +24,8 @@ bool Level2::init()
 
 	//addMonster();
 	addPlayer();
-	//DetectVictory();
-	//DetectFailure();
+
+	this->schedule(schedule_selector(BaseMap::toNextLevel), 0.01f);
 	this->schedule(schedule_selector(BaseMap::LayerFollowPlayer), 0.01f);
 
 	SoundManager::playDesertBattle();

@@ -282,6 +282,7 @@ void GameOption::onTouchEnded(Touch* touch, Event* event)
 	{
 		Director::getInstance()->resume();
 		onExitTransitionDidStart();
+		GameManager::getInstance()->CurrentLevel = 0;
 		Director::getInstance()->replaceScene(TransitionGame::create(1.0f, WelcomeScene::createScene()));
 	}
 		break;

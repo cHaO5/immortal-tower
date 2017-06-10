@@ -12,8 +12,7 @@ bool Player0::init()
 	Player->setPosition(GameManager::getInstance()->Level0_StartPosition);
 	Player->setAnchorPoint(Point(0.5, 0.25));
 	addChild(Player);
-	log("player0:%d", this->getTag());
-	log("add player");
+
 	GameManager::getInstance()->currentPlayer = Player;
 
 	attackMonster();

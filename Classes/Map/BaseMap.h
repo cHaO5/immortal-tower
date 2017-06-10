@@ -15,6 +15,7 @@ public:
 	//virtual void createMonster(int level,int type);
 	virtual void addPlayer();
 	virtual void LayerFollowPlayer(float t);
+	virtual void toNextLevel(float t);
 private:
 	int* level0_MonsterMap = GameManager::getInstance()->level0_MonsterMap;
 	int* level1_MonsterMap = GameManager::getInstance()->level1_MonsterMap;

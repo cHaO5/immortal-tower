@@ -1,4 +1,5 @@
 #include "Scene/GameScene.h"
+#include"Map/BaseMap.h"
 #include "Map/level1.h"
 #include "Map/Level2.h"
 #include "Map/Level0.h"
@@ -25,9 +26,23 @@ bool GameScene::init()
 	auto playerStateMenu = PlayerStateMenu::create();
     playerStateMenu->initGameOption();
 	addChild(playerStateMenu ,1);//加到scene上
+	BaseMap* game;
 
-	auto game = Level0::create(); 
-	GameManager::getInstance()->CurrentLevel= 0;
-	addChild(game,0);//加到scene上
+	switch (GameManager::getInstance()->CurrentLevel)
+	{
+	case(0):game = Level0::create(); 
+	        addChild(game,0);//加到scene上
+	        return true;
+		    break;
+	case(1):game = Level1::create();
+		    addChild(game, 0);//加到scene上
+		    return true;
+		    break;
+	case(2):game = Level2::create();
+			addChild(game, 0);//加到scene上
+			return true;
+			break;
+	default:break;
+	}
 	return true;
 }

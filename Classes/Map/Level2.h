@@ -9,7 +9,7 @@ USING_NS_CC;
 class Level2 : public BaseMap
 {
 public:
-	//static Level0* createGame();
+
 	virtual bool init();
 	CREATE_FUNC(Level2);
 private:
