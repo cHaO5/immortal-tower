@@ -11,9 +11,12 @@ class Weapon0 : public BaseWeapon
 public:
 	static Weapon0 * create(Vec2 offset);
 	virtual bool init();
+
+	int type = 0;
+
 private:
 	Vec2 direction;
-	int range = GameManager::getInstance()->Weapon_range[0];;
+	int range = GameManager::getInstance()->Weapon_range[0];
 };
 
 #endif

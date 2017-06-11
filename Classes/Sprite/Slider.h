@@ -6,7 +6,6 @@ USING_NS_CC;
 class Slider : public Sprite
 {
 public:
-	static Slider* createSlider();
 	virtual bool init();
 	CREATE_FUNC(Slider);
 private:

@@ -4,6 +4,13 @@
 #include<string>
 
 USING_NS_CC;
+enum class PhysicsCategory
+{
+	None = 0,
+	Monster = (1 << 0),//1
+	Projectile = (1 << 1),//2
+	All = PhysicsCategory::Monster | PhysicsCategory::Projectile//3
+};	
 
 class GameManager
 {
@@ -14,14 +21,14 @@ public:
 public:
 	//playerstate
 	int currentPlayerState_type = 0;
-	int currentPlayerState_life = 1000;
+	float currentPlayerState_life = 1000.0;
 	int currentPlayerState_speed = 128;
 	//Vec2 currentPlayerState_Position;getposition
 	Sprite* currentPlayer = NULL;
 
 	//player的信息汇总，type即可获取从0开始
 	int Player_type[3] = { 0,1,2};
-	int Player_life[3] = { 1000,2000,3000};
+	float Player_life[3] = { 1000.0,2000.0,3000.0};
 	int Player_speed[3] = { 128,128,128};
 	std::string Player_texture[3][4] =//每个人物的方向贴图
 	{
@@ -54,20 +61,19 @@ public:
 	int Monster_type[3] = { 0,1,2};
 	int Monster_life[3] = { 1,2,4 };
 	int Monster_speed[3] = { 128,128,128 };
-	int Monster_damage[3] = {10,20,30};
-	std::string Monster_texture[3][4];
+	float Monster_damage[3] = {10.0,20.0,30.0};
+	std::string Monster_texture[3][4]=
+	{
+		{ "player0/U.png","player0/L.png","player0/D.png","player0/R.png" },
+		{ "player0/U.png","player0/L.png","player0/D.png","player0/R.png" },
+		{ "player0/U.png","player0/L.png","player0/D.png","player0/R.png" },
+	};
 
 	//current scene control
 	int CurrentLevel = 0;
 	std::string CurrentMap;
 
-	enum class PhysicsCategory
-	{
-		None = 0,
-		Monster = (1 << 0),//1
-		Projectile = (1 << 1),//2
-		All = PhysicsCategory::Monster | PhysicsCategory::Projectile//3
-	};	
+
 
     //每个level的map的信息汇总，level可获取level从0开始
 	//每个level存有
@@ -83,7 +89,7 @@ public:
 	//一个装有本level总共要生成的小怪数目及类型的array//0代表的是Monster0这个种类
 	int level0_MonsterMap[4] = { 0,0,0,0 };
 	int level1_MonsterMap[4] = { 0,0,0,0 };
-	int level2_MonsterMap[4] = { 0,0,0,0};
+	int level2_MonsterMap[4] = { 0,0,0,0 };
 	int level_MonsterMapSize[3] = {4,4,4};
 
 	Vec2 Level0_StartPosition = Point(6 * 128 - 64, 6 * 128 - 64);
@@ -132,7 +138,10 @@ public:
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}//30th line
 	};
 
-	Vec2 ValidPosition_level0[4] = { Point(490,443),Point(490,512),Point(490,332),Point(490,224) };
+	Vec2 ValidPosition_level0[4] = { Point(5 * 128 - 64, 6 * 128 - 64),
+		                             Point(7 * 128 - 64, 6 * 128 - 64),
+		                             Point(6 * 128 - 64, 5 * 128 - 64),
+		                             Point(6 * 128 - 64, 7 * 128 - 64) };
 
 	int Level1LogicMap[30][30] =
 	{
@@ -168,7 +177,10 @@ public:
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }//30th line
 	};
 
-	Vec2 ValidPosition_level1[4] = { Point(490,443),Point(490,512),Point(490,332),Point(490,224) };
+	Vec2 ValidPosition_level1[4] = { Point(5 * 128 - 64, 6 * 128 - 64),
+		                             Point(7 * 128 - 64, 6 * 128 - 64),
+		                             Point(6 * 128 - 64, 5 * 128 - 64),
+		                             Point(6 * 128 - 64, 7 * 128 - 64) };
 
 	int Level2LogicMap[30][30] =
 	{
@@ -204,9 +216,11 @@ public:
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }//30th line
 	};
 
-	Vec2 ValidPosition_level2[4] = { Point(490,443),Point(490,512),Point(490,332),Point(490,224) };
+	Vec2 ValidPosition_level2[4] = { Point(5 * 128 - 64, 6 * 128 - 64),
+		                             Point(7 * 128 - 64, 6 * 128 - 64),
+		                             Point(6 * 128 - 64, 5 * 128 - 64),
+		                             Point(6 * 128 - 64, 7 * 128 - 64) };
 
-	int ValidPosition_levelSize[3] = {4,4,4};
 
 	bool MonsterClearFlag = true;
 	bool VictoryFlag = false;

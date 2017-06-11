@@ -1,4 +1,4 @@
-#include "Level0.h"
+ï»¿#include "Level0.h"
 #include"Data\GameManager.h"
 #include"Data\SoundManager.h"
 USING_NS_CC;
@@ -22,10 +22,13 @@ bool Level0::init()
     barrier = Sprite::create(GameManager::getInstance()->levelMap[0][2]);
 	barrier->setAnchorPoint(Point(0, 0));
 	barrier->setPosition(Point(0, 0));
-	addChild(barrier, 5);//Ó¦¸ÃÊÇÔÚlevel0Õâ¸ö¸¸½ÚµãÖÐ£¬¶ø²»ÊÇmapÕâ¸ö¸¸½ÚµãÖÐ
+	addChild(barrier, 5);//åº”è¯¥æ˜¯åœ¨level0è¿™ä¸ªçˆ¶èŠ‚ç‚¹ä¸­ï¼Œè€Œä¸æ˜¯mapè¿™ä¸ªçˆ¶èŠ‚ç‚¹ä¸­
 	log("level0:%d", this->getTag());
-	 //addMonster();
-	addPlayer();
+
+	addAttackListener();
+	addPlayer();	
+	addMonster();
+	
 
 	this->schedule(schedule_selector(BaseMap::toNextLevel), 0.01f);
 	this->schedule(schedule_selector(BaseMap::LayerFollowPlayer),0.01f);
@@ -33,3 +36,4 @@ bool Level0::init()
 	SoundManager::playDesertBattle();
 	return true;
 }
+

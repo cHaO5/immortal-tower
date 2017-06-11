@@ -1,4 +1,4 @@
-#include "Scene/GameScene.h"
+ï»¿#include "Scene/GameScene.h"
 #include"Map/BaseMap.h"
 #include "Map/level1.h"
 #include "Map/Level2.h"
@@ -10,7 +10,7 @@ Scene* GameScene::createScene()
 {
 	// 'scene' is an autorelease object
 	auto scene = Scene::createWithPhysics();
-
+	scene -> getPhysicsWorld()->setGravity(Vec2(0, 0));
 	// 'layer' is an autorelease object
 	auto layer = GameScene::create();
 
@@ -25,24 +25,25 @@ bool GameScene::init()
 {
 	auto playerStateMenu = PlayerStateMenu::create();
     playerStateMenu->initGameOption();
-	addChild(playerStateMenu ,1);//¼Óµ½sceneÉÏ
+	addChild(playerStateMenu ,1);//åŠ åˆ°sceneä¸Š
 	BaseMap* game;
 
 	switch (GameManager::getInstance()->CurrentLevel)
 	{
 	case(0):game = Level0::create(); 
-	        addChild(game,0);//¼Óµ½sceneÉÏ
+	        addChild(game,0);//åŠ åˆ°sceneä¸Š
 	        return true;
 		    break;
 	case(1):game = Level1::create();
-		    addChild(game, 0);//¼Óµ½sceneÉÏ
+		    addChild(game, 0);//åŠ åˆ°sceneä¸Š
 		    return true;
 		    break;
 	case(2):game = Level2::create();
-			addChild(game, 0);//¼Óµ½sceneÉÏ
+			addChild(game, 0);//åŠ åˆ°sceneä¸Š
 			return true;
 			break;
 	default:break;
 	}
 	return true;
 }
+

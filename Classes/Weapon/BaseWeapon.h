@@ -10,7 +10,7 @@ public:
 
 	virtual bool init();
 	CREATE_FUNC(BaseWeapon);
-	Sprite* baseweapon;//会被子类的覆盖到function里面
+	Sprite* baseweapon ;//会被子类的覆盖到function里面
 
 	virtual void StartListen(int range,Vec2 direction);
 	virtual void toObstacleDetect(float dt);

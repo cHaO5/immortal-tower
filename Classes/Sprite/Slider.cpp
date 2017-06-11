@@ -1,19 +1,6 @@
 #include"Sprite/Slider.h"
 #include"Data/GameManager.h"
 
-Slider* Slider::createSlider()
-{
-	auto slider = new Slider;
-
-	if (slider && slider->init())
-	{
-		slider->autorelease();
-		return slider;
-	}
-	CC_SAFE_DELETE(slider);
-	return NULL;
-}
-
 bool Slider::init()
 {
 	if (!Sprite::init())
@@ -33,7 +20,7 @@ bool Slider::init()
 	blood->setMidpoint(Vec2(0, 1));
 	addChild(blood);
 	
-	this->schedule(schedule_selector(Slider::bloodCallBack),0.1f);
+	this->schedule(schedule_selector(Slider::bloodCallBack),0.01f);
 	return true;
 }
 
@@ -49,14 +36,14 @@ void Slider::IncreaseBlood()
 {
 	if (0 < GameManager::getInstance()->PlayerIncreaseBlood)
 	{
-		GameManager::getInstance()->currentPlayerState_life += 10 * GameManager::getInstance()->PlayerIncreaseBlood;
+		GameManager::getInstance()->currentPlayerState_life += 10.0 * GameManager::getInstance()->PlayerIncreaseBlood;
 		if (GameManager::getInstance()->currentPlayerState_life >= GameManager::getInstance()->Player_life[GameManager::getInstance()->currentPlayerState_type])
 	    {
 			blood->setPercentage(100);
 	    }
 		else
 		{
-			blood->setPercentage(GameManager::getInstance()->currentPlayerState_life/ GameManager::getInstance()->Player_life[GameManager::getInstance()->currentPlayerState_type]);
+			blood->setPercentage((GameManager::getInstance()->currentPlayerState_life/ GameManager::getInstance()->Player_life[GameManager::getInstance()->currentPlayerState_type])*100);
 
 		}
 		GameManager::getInstance()->PlayerIncreaseBlood = 0;
@@ -70,7 +57,8 @@ void Slider::MonsterZeroDamage()
 		GameManager::getInstance()->currentPlayerState_life -= GameManager::getInstance()->Monster_damage[0] * GameManager::getInstance()->PlayerReduceBlood[0];
 		if (GameManager::getInstance()->currentPlayerState_life >= 0)
 		{
-			blood->setPercentage(GameManager::getInstance()->currentPlayerState_life/ GameManager::getInstance()->Player_life[GameManager::getInstance()->currentPlayerState_type]);
+			log("%f", GameManager::getInstance()->currentPlayerState_life / GameManager::getInstance()->Player_life[GameManager::getInstance()->currentPlayerState_type]);
+			blood->setPercentage((GameManager::getInstance()->currentPlayerState_life/ GameManager::getInstance()->Player_life[GameManager::getInstance()->currentPlayerState_type])*100);
 		}
 		else
 		{
@@ -87,7 +75,7 @@ void Slider::MonsterOneDamage()
 		GameManager::getInstance()->currentPlayerState_life -= GameManager::getInstance()->Monster_damage[1] * GameManager::getInstance()->PlayerReduceBlood[1];
 		if (GameManager::getInstance()->currentPlayerState_life >= 0)
 		{
-			blood->setPercentage(GameManager::getInstance()->currentPlayerState_life / GameManager::getInstance()->Player_life[GameManager::getInstance()->currentPlayerState_type]);
+			blood->setPercentage((GameManager::getInstance()->currentPlayerState_life / GameManager::getInstance()->Player_life[GameManager::getInstance()->currentPlayerState_type])*100);
 		}
 		else
 		{
@@ -104,7 +92,7 @@ void Slider::MonsterTwoDamage()
 		GameManager::getInstance()->currentPlayerState_life -= GameManager::getInstance()->Monster_damage[2] * GameManager::getInstance()->PlayerReduceBlood[2];
 		if (GameManager::getInstance()->currentPlayerState_life >= 0)
 		{
-			blood->setPercentage(GameManager::getInstance()->currentPlayerState_life / GameManager::getInstance()->Player_life[GameManager::getInstance()->currentPlayerState_type]);
+			blood->setPercentage((GameManager::getInstance()->currentPlayerState_life / GameManager::getInstance()->Player_life[GameManager::getInstance()->currentPlayerState_type])*100);
 		}
 		else
 		{

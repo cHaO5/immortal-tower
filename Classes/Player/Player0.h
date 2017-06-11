@@ -12,7 +12,7 @@ class Player0 : public BasePlayer
 public:
 	CREATE_FUNC(Player0);
 	virtual bool init();
-	
+
 };
 
 #endif

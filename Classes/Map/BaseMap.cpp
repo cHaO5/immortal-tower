@@ -1,16 +1,16 @@
-#include "Map/BaseMap.h"
+﻿#include "Map/BaseMap.h"
 #include "Data/GameManager.h"
 #include "Data/SoundManager.h"
 #include"Player/BasePlayer.h"
 #include"Player/Player0.h"
 #include"Player/Player1.h"
 #include"Player/Player2.h"
+#include"Monster/BaseMonster.h"
 #include"Monster/Monster0.h"
 #include"Monster/Monster1.h"
 #include"Monster/Monster2.h"
 #include"Scene/GameScene.h"
-#include"Map/level1.h"
-#include"Map/Level2.h"
+
 USING_NS_CC;
 
 bool BaseMap::init()
@@ -19,10 +19,39 @@ bool BaseMap::init()
 	{
 		return false;
 	}
+
+	return true;
+}
+/**/
+void BaseMap::addAttackListener()
+{
+	//用于清除碰撞后的飞镖与Monster
+	//安装了一个监听器使得HelloWorld::onContactBegan可以接收事件，并把监听器添加到了EventDispatcher中，只要两个Bitmask（刚才定义的属性）使得互相可以碰撞的物体碰撞，EventDispatcher 就会去调用 onContactBegan.
+	auto contactListener = EventListenerPhysicsContact::create();//但是一个射击多个就可能要出问题因为重复remove
+	contactListener->onContactBegin = CC_CALLBACK_1(BaseMap::onContactBegan, this);
+	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
+}
+
+//处理碰撞——移除碰撞的二者
+bool BaseMap::onContactBegan(PhysicsContact &contact)//PhysicsContact传递了碰撞的信息
+{
+	log("onContactBegan");
+	auto nodeA = contact.getShapeA()->getBody()->getNode();
+	auto nodeB = contact.getShapeB()->getBody()->getNode();
+	if (nodeA != NULL)
+	{
+		log("removeA");
+		nodeA->getParent()->removeFromParentAndCleanup(true);
+	}
+	if (nodeB != NULL)
+	{
+		log("removeB");
+		nodeB->getParent()->removeFromParentAndCleanup(true);
+	}
 	return true;
 }
 
-void BaseMap::LayerFollowPlayer(float t)//��Ҫ��ͣˢ�µĺ���
+void BaseMap::LayerFollowPlayer(float t)//需要不停刷新的函数
 {
 	auto follow = Follow::create(GameManager::getInstance()->currentPlayer);
 	this->runAction(follow);
@@ -43,64 +72,69 @@ void BaseMap::toNextLevel(float t)
 	}
 }
 
-/*
+
 void BaseMap::addMonster()
 {
+	log("addMonster");
 	int level = GameManager::getInstance()->CurrentLevel;
+	int* MonsterCreateMap;
 	switch (level)
 	{
-	  case(0):auto MonsterCreate = level0_MonsterMap;
-	        for (int i = 0; i <level0_MonsterMapSize; i++)
+	  case(0):MonsterCreateMap = GameManager::getInstance()->level0_MonsterMap;
+	        for (int i = 0; i <GameManager::getInstance()->level_MonsterMapSize[0]; i++)
 	       {
-				auto type = MonsterCreate[i];
-				createMonster(level,type);
+				log("add_0");
+				auto type = MonsterCreateMap[i];
+				createMonster(type,i);
 	       }
 		   break;
-	  case(1):auto MonsterCreate = level1_MonsterMap;
-		    for (int i = 0; i <level1_MonsterMapSize; i++)
+	  case(1):MonsterCreateMap = GameManager::getInstance()->level1_MonsterMap;
+		    for (int i = 0; i < GameManager::getInstance()->level_MonsterMapSize[1]; i++)
 		    {
-			    auto type = MonsterCreate[i];
-			    createMonster(level, type);
+				log("add_1");
+			    auto type = MonsterCreateMap[i];
+			    createMonster(type,i);
 		    }
 		   break;
-	  case(2):auto MonsterCreate = level2_MonsterMap;
-		  for (int i = 0; i < level2_MonsterMapSize; i++)
+	  case(2):MonsterCreateMap = GameManager::getInstance()->level2_MonsterMap;
+		  for (int i = 0; i < GameManager::getInstance()->level_MonsterMapSize[2]; i++)
 		  {
-			  auto type = MonsterCreate[i];
-			  createMonster(level, type);
+			  log("add_2");
+			  auto type = MonsterCreateMap[i];
+			  createMonster(type,i);
 		  }
 		  break;
 	default:break;
 	}
 }
 
-void BaseMap::createMonster(int level,int type)
+void BaseMap::createMonster(int type ,int i)
 {
-	for (int i = 0; i < GameManager::getInstance()->ValidPosition_levelSize[level]; i++)
+	BaseMonster* monster;
+	switch(type)
 	{
-		switch(type)
-		{
-		case(0):auto monster = Monster0::createMonster(GameManager::getInstance()->ValidPosition_level0[i]);
-		        addChild(monster,1);
-		        break;
-		case(1):auto monster = Monster1::createMonster(GameManager::getInstance()->ValidPosition_level1[i]);
-				addChild(monster,1);
-				break;
-		case(2):auto monster = Monster2::createMonster(GameManager::getInstance()->ValidPosition_level2[i]);
-				addChild(monster,1);
-				break;
-		default:
+	case(0):monster = Monster0::createMonster(GameManager::getInstance()->ValidPosition_level0[i]);
+		    addChild(monster,3);
+		    break;
+	case(1):monster = Monster1::createMonster(GameManager::getInstance()->ValidPosition_level1[i]);//Monster1
+			addChild(monster,3);
 			break;
-		}
-	}
+	case(2):monster = Monster2::createMonster(GameManager::getInstance()->ValidPosition_level2[i]);//Monster2
+			addChild(monster,3);
+			break;
+	default:
+			break;
+     }
+	log("%d", i);
 }
-*/
+
+
 void BaseMap::addPlayer()
 {
 	BasePlayer* player;
 	switch (GameManager::getInstance()->currentPlayerState_type)
 	{
-		case(0):player = Player0::create();//��create�мǵ÷���player��ָ�뵽GM
+		case(0):player = Player0::create();//在create中记得返回player的指针到GM
 	            addChild(player,3);
 				log("addPlayer :%d", this->getTag());
 				log("add player0");

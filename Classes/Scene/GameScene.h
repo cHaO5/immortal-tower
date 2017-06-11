@@ -10,7 +10,6 @@ public:
 	CREATE_FUNC(GameScene);
 	virtual bool init();
 	static Scene * createScene();
-
 };
 
 #endif

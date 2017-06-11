@@ -22,8 +22,10 @@ bool Level1::init()
 	barrier->setPosition(Point(0, 0));
 	addChild(barrier, 5);//应该是在level0这个父节点中，而不是map这个父节点中
 
-	//addMonster();
+	addAttackListener();
 	addPlayer();
+	addMonster();
+
 
 	this->schedule(schedule_selector(BaseMap::toNextLevel), 0.01f);
 	this->schedule(schedule_selector(BaseMap::LayerFollowPlayer), 0.01f);

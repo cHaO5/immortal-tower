@@ -18,7 +18,7 @@ bool PlayerStateMenu::init()
 	
 	//instance = GameManager::getInstance();
 
-	LifeSlider = Slider::createSlider();
+	LifeSlider = Slider::create();
 	LifeSlider->setAnchorPoint(Point(0, 0));
 	LifeSlider->setPosition(Point(600, Director::getInstance()->getWinSize().height - 30 + 100));
 	addChild(LifeSlider,1);
