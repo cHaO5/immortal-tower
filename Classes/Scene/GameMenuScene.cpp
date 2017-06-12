@@ -29,7 +29,7 @@ bool GameMenuScene::init()
 	}
 	//instance = GameManager::getInstance();
 
-	bgSprite = Sprite::createWithSpriteFrameName("MapBackground.png");
+	bgSprite = Sprite::create("Resources/empty_background.png");
 	bgSprite->setAnchorPoint(Vec2::ZERO);
 	bgSprite->setPosition(Vec2::ZERO);
 	addChild(bgSprite);

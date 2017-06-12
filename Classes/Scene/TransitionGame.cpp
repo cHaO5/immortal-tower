@@ -60,31 +60,31 @@ void TransitionGame::onEnter()
 	stRightBegin.setPoint(visibleSize.width, visibleSize.height / 2.0f);
 	stRightEnd.setPoint(visibleSize.width / 2.0f, visibleSize.height / 2.0f);
 
-	auto pLeft = Sprite::createWithSpriteFrameName("transitionDoor.png");
-	pLeft->setScaleX(visibleSize.width / 960);
-	auto pRight = Sprite::createWithSpriteFrameName("transitionDoor.png");
-	pRight->setScaleX(visibleSize.width / 960);
-	auto pLeft2 = Sprite::createWithSpriteFrameName("transitionLoading_left.png");
-	auto pRight2 = Sprite::createWithSpriteFrameName("transitionLoading_right.png");
+	auto pLeft = Sprite::create("Resources/transitionDoorLeft.png");
+	//pLeft->setScaleX(visibleSize.width / 960);
+	auto pRight = Sprite::create("Resources/transitionDoorRight.png");
+	//pRight->setScaleX(visibleSize.width / 960);
+	//auto pLeft2 = Sprite::createWithSpriteFrameName("transitionLoading_left.png");
+	//auto pRight2 = Sprite::createWithSpriteFrameName("transitionLoading_right.png");
 
 	pLeft->setAnchorPoint(Point(1, 0.5));
 	pRight->setAnchorPoint(Point(0, 0.5));
 
-	pLeft2->setAnchorPoint(Point(1, 0.5));
-	pRight2->setAnchorPoint(Point(0, 0.5));
+	//pLeft2->setAnchorPoint(Point(1, 0.5));
+	//pRight2->setAnchorPoint(Point(0, 0.5));
 
-	pLeft2->setPosition(Point(pLeft->getContentSize().width, pLeft->getContentSize().height / 2));
-	pRight2->setPosition(Point(0, pRight->getContentSize().height / 2));
+	//pLeft2->setPosition(Point(pLeft->getContentSize().width, pLeft->getContentSize().height / 2));
+	//pRight2->setPosition(Point(0, pRight->getContentSize().height / 2));
 
 	addChild(pLeft, 1);
 	addChild(pRight, 1);
 
-	pRight->setFlippedX(true);
+	//pRight->setFlippedX(true);
 	pLeft->setPosition(stLeftBegin);
 	pRight->setPosition(stRightBegin);
 
-	pLeft->addChild(pLeft2);
-	pRight->addChild(pRight2);
+	//pLeft->addChild(pLeft2);
+	//pRight->addChild(pRight2);
 	auto pActionLeft = MoveTo::create(_duration / 3, stLeftEnd);
 	//右边的向左移动活动
 	auto pActionRight = MoveTo::create(_duration / 3, stRightEnd);

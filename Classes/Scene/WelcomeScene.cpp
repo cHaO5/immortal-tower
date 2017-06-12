@@ -46,7 +46,6 @@ void WelcomeScene::onEnterTransitionDidFinish()
 {
 	auto Sequence = Sequence::create(ScaleTo::create(0.5f, 1.5f, 1.5f),
 		ScaleTo::create(0.2f, 1.0f, 1.0f),
-		CallFuncN::create(CC_CALLBACK_0(WelcomeScene::initLogoAnimation, this)),
 		CallFuncN::create(CC_CALLBACK_0(WelcomeScene::initButton_startAnimation, this)),
 		NULL);
 	sprite_Logo->runAction(Sequence);
@@ -55,7 +54,7 @@ void WelcomeScene::onEnterTransitionDidFinish()
 void WelcomeScene::initBackGround()
 {
 	//从SpriteFrameCache中加载图片
-	auto sprite_background = Sprite::createWithSpriteFrameName("mainmenu_bg.png");
+	auto sprite_background = Sprite::create("Resources/welcome_bg.png");
 	sprite_background->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2));
 	//添加背景，Zorder设置为-1
 	addChild(sprite_background, -1);
@@ -64,7 +63,7 @@ void WelcomeScene::initBackGround()
 void WelcomeScene::initLogo()
 {
 	//从SpriteFrameCache中加载图片
-	sprite_Logo = Sprite::createWithSpriteFrameName("logo.png");
+	sprite_Logo = Sprite::create("Resources/title.png");
 	//设置锚点为图片中央
 	sprite_Logo->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	//计算Logo图应该在的位置
@@ -122,27 +121,6 @@ void WelcomeScene::initButton_start()
 		Director::getInstance()->replaceScene(TransitionGame::create(1.0f, GameMenuScene::createScene()));
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(button_Start_listener, button_Start);
-}
-
-void WelcomeScene::initLogoAnimation()
-{
-	//从资源中加图片，设置锚点和位置
-	auto sprite = Sprite::createWithSpriteFrameName("logo_brillo_0001.png");
-	sprite->setPosition(point_Logo);
-	//生成帧动画
-	SpriteFrame* frame = NULL;
-	Vector<SpriteFrame*> aFrames(20);
-
-	for (int len = 1; len <= 21; len++)
-	{
-		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(String::createWithFormat("logo_brillo_00%02d.png", len)->getCString());
-		if (frame != nullptr)
-			aFrames.pushBack(frame);
-	}
-	addChild(sprite, 10);
-	auto animation = Animation::createWithSpriteFrames(aFrames, 0.1f);
-	//播放动画
-	sprite->runAction(RepeatForever::create(Animate::create(animation)));
 }
 
 void WelcomeScene::initButton_startAnimation()

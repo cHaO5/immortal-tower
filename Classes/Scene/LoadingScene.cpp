@@ -25,8 +25,8 @@ bool LoadingScene::init()
 	}
 	numberOfLoadedRes = 0;
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto back = Sprite::create("Default@2x.png");
-	back->setRotation(-90.0f);
+	auto back = Sprite::create("Resources/loading.png");
+	//back->setRotation(-90.0f);
 	back->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2));
 	addChild(back);
 	schedule(schedule_selector(LoadingScene::logic));
