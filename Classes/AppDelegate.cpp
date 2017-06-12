@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "Scene\LoadingScene.h"
+#include "LoadingScene.h"
 
 USING_NS_CC;
 
@@ -33,6 +33,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	//director->setDisplayStats(true);
 	director->getOpenGLView()->setDesignResolutionSize(960, 640, ResolutionPolicy::FIXED_HEIGHT);
 	// create a scene. it's an autorelease object
+    
 	auto scene = LoadingScene::createScene();
 	// run
 	director->runWithScene(scene);
