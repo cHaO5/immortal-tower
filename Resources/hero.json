@@ -1,0 +1,23 @@
+{
+	"hero": [
+		{
+			"heroName": 0,
+			"heroBlood": 100,
+			"heroSpeed": 1,
+			"heroDamage": 2
+		},
+        {
+             "heroName": 1,
+             "heroBlood": 100,
+             "heroSpeed": 1,
+             "heroDamage": 2
+        },
+
+		{
+			"heroName": 2,
+			"heroBlood": 150,
+			"heroSpeed": 2,
+			"heroDamage": 1
+		}
+	]
+}

@@ -1,0 +1,19 @@
+{
+    "map": 0,
+    "musicOn": true,
+    "effectOn": true,
+    
+    "playerType": 0,
+    "playerBlood": 100,
+    "playerSpeed": 1,
+    "playerPositionX": 0,
+    "playerPositionY": 0,
+    
+    "weaponType": 0,
+    "weaponSpeed": 1,
+    "weaponDamage": 2,
+    "weaponRange": 2,
+    
+    "monsterKilled": 0,
+    "monsterOnMap": 10
+}

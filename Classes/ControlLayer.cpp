@@ -1,97 +1,220 @@
-ï»¿#include"ControlLayer.h"
+#include"ControlLayer.h"
+#include"GameManager.h"
+#include"BaseWeapon.h"
+#include"Weapon0.h"
+#include"Weapon1.h"
 
-ControlLayer* ControlLayer::createControl()
+ControlLayerAttack* ControlLayerAttack::createAttackControl()
 {
-	log("jjjj");
-	ControlLayer* controlLayer=ControlLayer::create(); 
+	auto layer = new ControlLayerAttack();
+	if (layer && layer->initAttackControl()) 
+	{
+		layer->autorelease();
+		return layer;
+	}
+	CC_SAFE_DELETE(layer);
 
-	return controlLayer;
+	return NULL;
 }
 
-bool ControlLayer::init()
+bool ControlLayerAttack::initAttackControl()
 {
-	log("iiii");
-	//log("%d", this->getTag());
+	if (!Layer::init())
+	{
+		return false;
+	}
 
+	auto eventListener = EventListenerTouchOneByOne::create();//Êó±ê¼àÊÓ
+	eventListener->onTouchBegan = CC_CALLBACK_2(ControlLayerAttack::onTouchBegan, this);
+	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(eventListener, GameManager::getInstance()->currentPlayer);
+
+	return true;
+}
+
+bool ControlLayerAttack::onTouchBegan(Touch *touch, Event *usused_event)
+{
+	auto player = GameManager::getInstance()->currentPlayer;
+	//»ñÈ¡ÁË³¡¾°×ø±êÏµÖĞ´¥ÃşµÄ×ø±ê£¬È»ºó¼ÆËãÁËÕâ¸öµãÏà¶ÔÓÚÍæ¼Òµ±Ç°Î»ÖÃµÄÆ«ÒÆÁ¿
+	auto touchLocation = touch->getLocation();//Éä²»×¼ÒòÎªµÃµ½µÄµãÊÇÒÔÆÁÄ»×óÏÂ½ÇÎªÔ­µãµÄ£¬¶øÈËÎï×ø±êÒÔµØÍ¼×óÏÂ½Ç
 	auto winSize = Director::getInstance()->getWinSize();
+	auto offset = touchLocation + (player->getPosition() - Point(winSize.width / 2, winSize.height / 2)) - player->getPosition();
+	offset.normalize();
 
-	_tileMap = TMXTiledMap::create("_tilemap.tmx");
-	this->addChild(_tileMap);
-	_tileMap->getLayer("floor")->setGlobalZOrder(-1);
-	_tileMap->getLayer("wall_1")->setGlobalZOrder(0);
-    _tileMap->getLayer("wall_2")->setGlobalZOrder(2);
-	_tileMap->getLayer("collections")->setGlobalZOrder(2);
-	_tileMap->getLayer("meta")->setGlobalZOrder(3);
-
-	//è·å–åœ°å›¾ä¸­ä¸èƒ½è¡Œèµ°çš„åŒºåŸŸï¼ˆå¢™ç­‰éšœç¢ç‰©ï¼‰
-	_meta = _tileMap->getLayer("meta");
-	//éšè—ä¸èƒ½è¡Œèµ°çš„åŒºåŸŸ
-	_meta->setVisible(false);
-	//è·å–åœ°å›¾ä¸Šçš„ä¸œè¥¿
-	_fruit = _tileMap->getLayer("collections");
-
-	player = new Player(_tileMap,_meta,_fruit);
-	player->init();
-	this->addChild(player);
-	player->setGlobalZOrder(0);
-	//log("%f,%f", player->_player->getAnchorPoint().x, player->_player->getAnchorPoint().y);
-	//å†ä½¿ç”¨è·Ÿéšå‡½æ•°ä¹‹å‰å…ˆæ›´æ–°ä¸€éï¼Œä¸ç„¶ä¼šè·³è½¬
-	int x = player->_player->getPosition().x;
-	int y = player->_player->getPosition().y;
-	auto centerPoint = Point(winSize.width / 2, winSize.height / 2);
-	auto actualPoint = Point(x, y);
-	auto viewPoint = centerPoint - actualPoint;
-	this->setPosition(viewPoint);
-
-    winlayer =new WinLayer;
-	winlayer->_player = player;
-	winlayer->init();
-	this->addChild(winlayer);
-
-	monster = new Monster;
-	monster->_player = player;
-	monster->_tileMap = _tileMap;
-	monster->_meta =_meta;
-	monster->_fruit = _fruit;
-	monster->setGlobalZOrder(1);
-	monster->init();
-	this->addChild(monster);
-
-	keyBoard = KeyBoard::create();
-	keyBoard->_player = player;
-	keyBoard->_tileMap = _tileMap;
-	log("mmm");
-	keyBoard->startKB();//player=????
-	log("ppp");
-	this->addChild(keyBoard);
-
-	mouse = new Mouse;
-	mouse->_player = player;
-	mouse->_tileMap = _tileMap;
-	mouse->_meta = _meta;
-	mouse->init();
-	mouse->startM();
-	this->addChild(mouse);
-
-	//ç”¨äºæ¸…é™¤ç¢°æ’åçš„é£é•–ä¸Monster
-	//å®‰è£…äº†ä¸€ä¸ªç›‘å¬å™¨ä½¿å¾—HelloWorld::onContactBeganå¯ä»¥æ¥æ”¶äº‹ä»¶ï¼Œå¹¶æŠŠç›‘å¬å™¨æ·»åŠ åˆ°äº†EventDispatcherä¸­ï¼Œåªè¦ä¸¤ä¸ªBitmaskï¼ˆåˆšæ‰å®šä¹‰çš„å±æ€§ï¼‰ä½¿å¾—äº’ç›¸å¯ä»¥ç¢°æ’çš„ç‰©ä½“ç¢°æ’ï¼ŒEventDispatcherÂ å°±ä¼šå»è°ƒç”¨Â onContactBegan.
-	auto contactListener = EventListenerPhysicsContact::create();//ä½†æ˜¯ä¸€ä¸ªå°„å‡»å¤šä¸ªå°±å¯èƒ½è¦å‡ºé—®é¢˜å› ä¸ºé‡å¤remove
-	contactListener->onContactBegin = CC_CALLBACK_1(ControlLayer::onContactBegan, this);
-	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
-
+	BaseWeapon* weapon;
+	switch (GameManager::getInstance()->currentWeaponType)
+	{
+	case(0):weapon = Weapon0::create(offset);
+		    addChild(weapon);
+		    break;
+	case(1):weapon = Weapon1::create(offset);
+			addChild(weapon);
+			break;
+	default:
+		break;
+	}
 	return true;
 }
-//å¤„ç†ç¢°æ’â€”â€”ç§»é™¤ç¢°æ’çš„äºŒè€…
-bool ControlLayer::onContactBegan(PhysicsContact &contact)//PhysicsContactä¼ é€’äº†ç¢°æ’çš„ä¿¡æ¯
+
+ControlLayerMove* ControlLayerMove::createMoveControl()
 {
-	log("123456");
-	auto nodeA = contact.getShapeA()->getBody()->getNode();
-	auto nodeB = contact.getShapeB()->getBody()->getNode();
-	nodeA->removeFromParent();//Aæ˜¯ï¼Ÿbugå°±æ˜¯ç»å¸¸ä¸€ç¾¤èšåœ¨ä¸€èµ·çš„æ—¶å€™å°„å‡»å°±ä¼šå¼‚å¸¸å› ä¸ºremovefromsceneå·²ç»ç§»é™¤äº†ä¸€æ¬¡
-	//ä½†æ˜¯ä¸ºä»€ä¹ˆè¿˜ä¼šè¿è¡ŒæˆåŠŸï¼Ÿï¼Ÿï¼Ÿè¿™ä¸ªæ˜¯åœ¨ç¢°æ’æ—¶å°±æ¸…é™¤ï¼Œé‚£ä¸ªæ˜¯åœ¨ä¸å‘ç”Ÿç¢°æ’æ—¶æ¸…é™¤ï¼Œå¦‚æœå‘ç”Ÿäº†ç¢°æ’å°±å·²ç»æ¸…é™¤äº†ï¼Œ
-	//é‚£removefromsceneä¼šä¸ä¼šå‘ç”Ÿé”™è¯¯ï¼Ÿï¼Ÿï¼Ÿ
-	nodeB->removeFromParent();
-	return true;
+	auto layer = new ControlLayerMove();
+	if (layer && layer->initMoveControl())
+	{
+		layer->autorelease();
+		return layer;
+	}
+	CC_SAFE_DELETE(layer);
+
+	return NULL;
 }
 
+bool ControlLayerMove::initMoveControl()
+{
+	if (!Layer::init())
+	{
+		return false;
+	}
+
+	auto keyBoardListener = EventListenerKeyboard::create();
+	keyBoardListener->onKeyPressed = CC_CALLBACK_1(ControlLayerMove::onKeyPressed, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyBoardListener, this);
+    
+    auto mouseListener = EventListenerMouse::create();
+    mouseListener->onMouseMove = CC_CALLBACK_1(ControlLayerMove::onMouseMove, this);
+    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(mouseListener, this);
+
+	return true;
+}
+void ControlLayerMove::onKeyPressed(EventKeyboard::KeyCode keyCode)
+{
+	auto player = GameManager::getInstance()->currentPlayer;
+	switch (keyCode)
+	{
+	case EventKeyboard::KeyCode::KEY_UP_ARROW:
+		keyPressedDuration(EventKeyboard::KeyCode::KEY_UP_ARROW);
+		player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][0]);
+		break;
+	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+		keyPressedDuration(EventKeyboard::KeyCode::KEY_LEFT_ARROW);
+		player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][1]);
+		break;
+	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+		keyPressedDuration(EventKeyboard::KeyCode::KEY_DOWN_ARROW);
+		player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][2]);
+		break;
+	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		keyPressedDuration(EventKeyboard::KeyCode::KEY_RIGHT_ARROW);
+		player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][3]);
+		break;
+	default:break;
+	}
+}
+
+void ControlLayerMove::onMouseMove(Event *event) {
+    EventMouse* e = (EventMouse*)event;
+    auto winSize = Director::getInstance()->getWinSize();
+    auto mouseLocation = Vec2(e->getCursorX(), e->getCursorY());
+    auto player = GameManager::getInstance()->currentPlayer;
+    auto offset = mouseLocation + (player->getPosition()-Point(winSize.width/2, winSize.height/2)) - player->getPosition();
+    offset.normalize();
+    auto arc = offset.getAngle(Vec2(0, 1));
+    //log("%f,%f",offset.x, offset.y);
+    //log("%f", arc);
+    if (arc > -0.3926 && arc <= 0.3926) {  //turn U
+        player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][0]);
+    } else if (arc > 0.3926 && arc <= 1.1781) {  //turn UR
+        player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][5]);
+    } else if (arc > 1.1781 && arc <= 1.9635) {  //turn R
+        player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][3]);
+    } else if (arc > 1.9635 && arc <= 2.7489) {  //turn DR
+        player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][7]);
+    } else if (arc > 2.7489 || arc <= -2.7489) {  //turn D
+        player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][2]);
+    } else if (arc > -1.1781 && arc <= -0.3926) {  //turn UL
+        player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][4]);
+    } else if (arc > -1.9635 && arc <= -1.1781) {  //turn L
+        player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][1]);
+    } else if (arc > -2.7489 && arc <= -1.9635) {  //turn DL
+        player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][6]);
+    }
+    return;
+}
+
+void ControlLayerMove::keyPressedDuration(EventKeyboard::KeyCode code)
+{
+	bool setPlayerPosition(Point position);
+	auto player = GameManager::getInstance()->currentPlayer;
+	auto playerPos = player->getPosition();
+	int offsetX = 0, offsetY = 0;
+	bool ref = true;
+	switch (code)
+	{
+	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+		offsetX = -GameManager::getInstance()->Player_speed[GameManager::getInstance()->currentPlayerState_type];
+		playerPos.x -= (GameManager::getInstance()->TileSizewidth/ 2) - 2;//Ò²¿ÉÒÔ¸ÄÎªgetcontentwith±ß½çµãÅĞ¶Ï
+		playerPos.x += offsetX;
+		ref = setPlayerPosition(playerPos);
+		break;
+	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		offsetX = GameManager::getInstance()->Player_speed[GameManager::getInstance()->currentPlayerState_type];
+		playerPos.x += (GameManager::getInstance()->TileSizewidth / 2) - 2;
+		playerPos.x += offsetX;
+		ref = setPlayerPosition(playerPos);
+		break;
+	case EventKeyboard::KeyCode::KEY_UP_ARROW:
+		offsetY = GameManager::getInstance()->Player_speed[GameManager::getInstance()->currentPlayerState_type];
+		playerPos.y += (GameManager::getInstance()->TileSizeheight / 2) - 2;
+		playerPos.y += offsetY;
+		ref = setPlayerPosition(playerPos);
+		break;
+	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+		offsetY = -GameManager::getInstance()->Player_speed[GameManager::getInstance()->currentPlayerState_type];
+		playerPos.y -= (GameManager::getInstance()->TileSizeheight / 2) - 2;
+		playerPos.y += offsetY;
+		ref = setPlayerPosition(playerPos);
+		break;
+	default:
+		offsetY = offsetX = 0;
+		break;
+	}
+	if (ref == false)
+	{
+		offsetY = offsetX = 0;
+	}
+	// 0.3s´ú±í×Å¶¯×÷´Ó¿ªÊ¼µ½½áÊøËùÓÃµÄÊ±¼ä£¬´Ó¶øÏÔµÃ²»»áÄÇÃ´»úĞµ¡£
+	auto moveTo = MoveTo::create(0.3, Vec2(player->getPositionX() + offsetX,player->getPositionY() + offsetY));
+	player->runAction(moveTo);
+}
+
+bool setPlayerPosition(Point position)
+{
+	int x = static_cast<int>(position.x / GameManager::getInstance()->TileSizewidth);
+	//ÓÉÓÚÔ­À´player×ø±êÔÚ£¨»ñÈ¡Ê±¾­¹ı×ª»»£©ÉèÖÃÊ±ÒÔ×óÏÂ½ÇÎªÔ­µã
+	//¶øµØÍ¼ÒÔ×óÉÏ½ÇÎªÔ¶Ô­µã£¬ÎªÁËÔÚµØÍ¼ÖĞÈ¡µ½ÕıÈ·µÄµãÓ¦¸ÃÒª×öÒ»´Î×ª»¯
+	//ÏÈÓÉ×ø±ê»¯ÎªµãÔÙÅĞ¶ÏÆÁÄ»×ø±êÊÇÊÇÒÔ£¨µã£©Îª»ù±¾ÔªËØ£¬¶øµØÍ¼×ø±êÏµÊÇÒÔ·½¸ñÎª»ù±¾ÔªËØ
+	//to do it£ºÓ¦¸Ã×öÒ»¸öº¯Êı×ª»¯ËùÓĞ×ø±êÕâÑù»»µØÍ¼·½±ã£¡Òª×ª»¯µÄ¾ÍÕÏ°­ÎïµÄ×ø±ê
+	int y = static_cast<int>((GameManager::getInstance()->MapSizeheight *  GameManager::getInstance()->TileSizeheight - position.y) / GameManager::getInstance()->TileSizeheight);
+	int* logicmap;
+	switch (GameManager::getInstance()->CurrentLevel)
+	{
+	case(0):logicmap = GameManager::getInstance()->Level0LogicMap[0];
+		break;
+	case(1):logicmap =GameManager::getInstance()->Level1LogicMap[0];
+		break;
+	case(2):logicmap =GameManager::getInstance()->Level2LogicMap[0];
+		break;
+	default:
+		break;
+	}
+	auto value = *((logicmap + GameManager::getInstance()->MapSizewidth*y) + x);
+	log("%d,%d", x, y);
+	log("%d", value);
+	switch (value)
+	{
+	case(1):
+		return false;
+	default:
+		return true;
+	}
+}
 
