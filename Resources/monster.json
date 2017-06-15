@@ -1,0 +1,22 @@
+{
+	"monster": [
+		{
+			"monsterType": 0,
+			"monsterBlood": 100,
+			"monsterSpeed": 1,
+			"monsterDamage": 2
+		},
+		{
+			"monsterType": 1,
+			"monsterBlood": 150,
+			"monsterSpeed": 2,
+			"monsterDamage": 1
+		},
+        {
+            "monsterType": 2,
+            "monsterBlood": 100,
+            "monsterSpeed": 3,
+            "monsterDamage": 3
+        }
+	]
+}

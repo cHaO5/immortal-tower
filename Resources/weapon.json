@@ -1,0 +1,25 @@
+{
+	"weapon": [
+		{
+			"weaponType": 0,
+			"weaponRange": 1,
+			"weaponSpeed": 2,
+			"weaponDamage": 2,
+            "weaponTexture": "Projectile2.png"
+		},
+		{
+            "weaponType": 1,
+            "weaponRange": 1,
+            "weaponSpeed": 2,
+            "weaponDamage": 2,
+            "weaponTexture": "Projectile2.png"
+		},
+        {
+            "weaponType": 2,
+            "weaponRange": 1,
+            "weaponSpeed": 2,
+            "weaponDamage": 2,
+            "weaponTexture": "Projectile2.png"
+        }
+	]
+}
