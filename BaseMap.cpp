@@ -111,14 +111,14 @@ void BaseMap::addMonster()
 			    createMonster(type,i);
 		    }
 		   break;
-	  /*case(2):MonsterCreateMap = GameManager::getInstance()->level2_MonsterMap;
+	  case(2):MonsterCreateMap = GameManager::getInstance()->level2_MonsterMap;
 		  for (int i = 0; i < GameManager::getInstance()->level_MonsterMapSize[2]; i++)
 		  {
 			  log("add_2");
 			  auto type = MonsterCreateMap[i];
 			  createMonster(type,i);
 		  }
-		  break;*/
+		  break;
 	default:break;
 	}
 }
@@ -134,9 +134,9 @@ void BaseMap::createMonster(int type ,int i)
 	case(1):monster = Monster1::createMonster(GameManager::getInstance()->ValidPosition_level1[i]);//Monster1
 			addChild(monster,3);
 			break;
-	/*case(2):monster = Monster2::createMonster(GameManager::getInstance()->ValidPosition_level2[i]);//Monster2
+	case(2):monster = Monster2::createMonster(GameManager::getInstance()->ValidPosition_level2[i]);//Monster2
 			addChild(monster,3);
-			break;*/
+			break;
 	default:
 			break;
      }

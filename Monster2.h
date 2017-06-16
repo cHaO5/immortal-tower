@@ -13,14 +13,13 @@ public:
 	virtual bool init();
 
 	virtual void Attack(float dt);
-	virtual void DelayUnschedule(Node * pSender);
-	virtual void IfActionRemove(Node * pSender);
-	virtual void BoundDetect(float dt);
+    virtual void DelayUnschedule(Node * pSender);
+    virtual void BoundDetect(float dt);
 
 	int type = 2;
 private:
 	Vec2 position;
-	Sprite* Monster2_weapon;
+    int Monster2_weapon;
 
 };
 
