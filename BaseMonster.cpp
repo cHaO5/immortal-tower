@@ -56,10 +56,72 @@ void BaseMonster::FollowMove(float dt)
 void BaseMonster::Move(Node *pSender)//此处加入ai算法
 {
 	log("Monater 1111111111 Move create");
-    if (GameManager::getInstance()->currentPlayer->getPosition().x - baseMonster->getPosition().x<0) baseMonster->setTexture(GameManager::getInstance()->Monster_texture[1][1]);
-    if (GameManager::getInstance()->currentPlayer->getPosition().x - baseMonster->getPosition().x>=0) baseMonster->setTexture(GameManager::getInstance()->Monster_texture[1][3]);
-    if (GameManager::getInstance()->currentPlayer->getPosition().y - baseMonster->getPosition().y<-128*3) baseMonster->setTexture(GameManager::getInstance()->Monster_texture[1][2]);
-    if (GameManager::getInstance()->currentPlayer->getPosition().y - baseMonster->getPosition().y>128*3) baseMonster->setTexture(GameManager::getInstance()->Monster_texture[1][0]);
+    Vec2 endPos = Vec2(GameManager::getInstance()->currentPlayer->getPosition().x, GameManager::getInstance()->currentPlayer->getPosition().y);
+    Vec2 startPos = Vec2(baseMonster->getPosition().x, baseMonster->getPosition().y);
+    Vec2 dis = endPos - startPos;
+    auto arc=Vec2(dis.y, dis.x).getAngle();
+    auto animation = Animation::create();
+    char nameSize[20] = {0};
+    Vector< SpriteFrame* > frameVec;
+    if (arc > -0.3926 && arc <= 0.3926) {  //turn U
+        for (int i=2;i<=6;i++)
+        {
+            sprintf(nameSize, "2-U-%d.png",i);
+            animation->addSpriteFrameWithFile(nameSize);
+            
+        }
+    } else if (arc > 0.3926 && arc <= 1.1781) {  //turn UR
+        for (int i=1;i<=3;i++)
+        {
+            sprintf(nameSize, "2-UR-%d.png",i);
+            animation->addSpriteFrameWithFile(nameSize);
+        }
+    } else if (arc > 1.1781 && arc <= 1.9635) {  //turn R
+        for (int i=1;i<=4;i++)
+        {
+            sprintf(nameSize, "2-R-%d.png",i);
+            animation->addSpriteFrameWithFile(nameSize);
+        }
+    } else if (arc > 1.9635 && arc <= 2.7489) {  //turn DR
+        for (int i=1;i<=4;i++)
+        {
+            sprintf(nameSize, "2-DR-%d.png",i);
+            animation->addSpriteFrameWithFile(nameSize);
+        }
+    } else if (arc > 2.7489 || arc <= -2.7489) {  //turn D
+        for (int i=1;i<=4;i++)
+        {
+            sprintf(nameSize, "2-D-%d.png",i);
+            animation->addSpriteFrameWithFile(nameSize);
+        }
+    } else if (arc > -1.1781 && arc <= -0.3926) {  //turn UL
+        for (int i=1;i<=3;i++)
+        {
+            sprintf(nameSize, "2-UL-%d.png",i);
+            animation->addSpriteFrameWithFile(nameSize);
+        }
+    } else if (arc > -1.9635 && arc <= -1.1781) {  //turn L
+        for (int i=1;i<=4;i++)
+        {
+            sprintf(nameSize, "2-L-%d.png",i);
+            animation->addSpriteFrameWithFile(nameSize);
+        }
+    } else if (arc > -2.7489 && arc <= -1.9635) {  //turn DL
+        for (int i=1;i<=4;i++)
+        {
+            sprintf(nameSize, "2-DL-%d.png",i);
+            animation->addSpriteFrameWithFile(nameSize);
+        }
+    }
+    animation->setDelayPerUnit(1.0f);
+    animation->setLoops(-1);
+    animation->setRestoreOriginalFrame(true);
+    auto animate = Animate::create(animation);
+    //    baseMonster = Sprite::create("2-D-1.png");
+    //    baseMonster->setPosition(position);
+    //    addChild(baseMonster);
+    baseMonster->runAction(animate);
+
 
     int Map[30][30];
     for (int i=0;i<30;i++)
