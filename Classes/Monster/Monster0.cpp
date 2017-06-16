@@ -52,8 +52,7 @@ void Monster0::Attack(float dt)//不同怪的攻击方式不同在这里重写攻击方式
 	Monster0_weapon = monsterattack;
 	this->schedule(schedule_selector(Monster0::BoundDetect), 0.01f);
 
-
-	direction = Monster0_weapon ->getPosition()- GameManager::getInstance()->currentPlayer->getPosition();
+	direction = Monster0_weapon ->getPosition() - GameManager::getInstance()->currentPlayer->getPosition();
 	direction.normalize();
 
 	this->schedule(schedule_selector(Monster0::toObstacleDetect), 0.01f);
@@ -74,6 +73,7 @@ void Monster0::toObstacleDetect(float dt)
 	{
 		log("true");
 		this->unschedule(schedule_selector(Monster0::toObstacleDetect));
+		this->unschedule(schedule_selector(Monster0::BoundDetect));
 		Monster0_weapon->removeFromParentAndCleanup(true);
 	}
 }
@@ -110,6 +110,7 @@ void Monster0::DelayUnschedule(Node *pSender)
 	if (Monster0_weapon!= NULL)
 	{
 		log("successful111");
+		this->unschedule(schedule_selector(Monster0::toObstacleDetect));
 		this->unschedule(schedule_selector(Monster0::BoundDetect));
 	}
 
@@ -119,7 +120,6 @@ void Monster0::IfActionRemove(Node *pSender)
 {
 	if (Monster0_weapon != NULL)
 	{
-		this->unschedule(schedule_selector(Monster0::toObstacleDetect));
 		auto actionRemove = RemoveSelf::create();
 		Monster0_weapon->runAction(actionRemove);
 	}
@@ -127,12 +127,12 @@ void Monster0::IfActionRemove(Node *pSender)
 
 void Monster0::BoundDetect(float dt)
 {
-
 	if (GameManager::getInstance()->currentPlayer->getBoundingBox().intersectsRect(Monster0_weapon->getBoundingBox()))
 	{
-		log("-10");
 		GameManager::getInstance()->PlayerReduceBlood[0]++;
+		log("9999999");
 		this->unschedule(schedule_selector(Monster0::toObstacleDetect));
+		log("hhhhhhh");
 		this->unschedule(schedule_selector(Monster0::BoundDetect));//先停止更新再移除否则更新要出错
 		auto actionRemove = RemoveSelf::create();
 		Monster0_weapon->runAction(actionRemove);

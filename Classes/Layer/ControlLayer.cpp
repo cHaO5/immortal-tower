@@ -76,7 +76,6 @@ bool ControlLayerMove::initMoveControl()
 	}
 
 	auto keyBoardListener = EventListenerKeyboard::create();
-	//keyBoardListener->onKeyPressed = CC_CALLBACK_1(ControlLayerMove::onKeyPressed, this);
     keyBoardListener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event) 
 	{
 		log("onkeypress");
@@ -92,7 +91,6 @@ bool ControlLayerMove::initMoveControl()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyBoardListener, this);
 
 	this->schedule(schedule_selector(ControlLayerMove::updateState), 0.3f);
-
 	return true;
 }
 
@@ -112,7 +110,6 @@ bool ControlLayerMove::isKeyPressed(EventKeyboard::KeyCode keyCode)
 
 void ControlLayerMove::updateState(float delta)
 {
-	//Node::update(delta);
 	auto player = GameManager::getInstance()->currentPlayer;
 	if (isKeyPressed(EventKeyboard::KeyCode::KEY_LEFT_ARROW)) 
 	{
@@ -120,17 +117,17 @@ void ControlLayerMove::updateState(float delta)
 		keyPressedDuration(EventKeyboard::KeyCode::KEY_LEFT_ARROW);
 		player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][1]);
 	}
-	else if (isKeyPressed(EventKeyboard::KeyCode::KEY_RIGHT_ARROW))
+	if (isKeyPressed(EventKeyboard::KeyCode::KEY_RIGHT_ARROW))
 	{
 		keyPressedDuration(EventKeyboard::KeyCode::KEY_RIGHT_ARROW);
 		player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][3]);
 	}
-	else if (isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW))
+	if (isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW))
 	{
 		keyPressedDuration(EventKeyboard::KeyCode::KEY_UP_ARROW);
 		player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][0]);
 	}
-	else if (isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW))
+	if (isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW))
 	{
 		keyPressedDuration(EventKeyboard::KeyCode::KEY_DOWN_ARROW);
 		player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][2]);
