@@ -16,7 +16,7 @@ bool PlayerStateMenu::init()
 	fog->setPosition(Point(0,0));
 	addChild(fog,0);
 	
-	//instance = GameManager::getInstance();
+	instance = GameManager::getInstance();
 
 	LifeSlider = Slider::create();
 	LifeSlider->setAnchorPoint(Point(0, 0));

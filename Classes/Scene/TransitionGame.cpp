@@ -6,6 +6,7 @@ USING_NS_CC;
 
 TransitionGame * TransitionGame::create(float t, Scene *scene)
 {
+	log("create transitionScene");
 	TransitionGame * pScene = new TransitionGame();
 	if (pScene && pScene->initWithDuration(t, scene))
 	{
@@ -60,9 +61,11 @@ void TransitionGame::onEnter()
 	stRightBegin.setPoint(visibleSize.width, visibleSize.height / 2.0f);
 	stRightEnd.setPoint(visibleSize.width / 2.0f, visibleSize.height / 2.0f);
 
-	auto pLeft = Sprite::create("Resources/transitionDoorLeft.png");
+	auto pLeft = Sprite::create("Scene/loadingleft.png");
+	log("1eft");
 	//pLeft->setScaleX(visibleSize.width / 960);
-	auto pRight = Sprite::create("Resources/transitionDoorRight.png");
+	auto pRight = Sprite::create("Scene/loadingright.png");
+	log("right");
 	//pRight->setScaleX(visibleSize.width / 960);
 	//auto pLeft2 = Sprite::createWithSpriteFrameName("transitionLoading_left.png");
 	//auto pRight2 = Sprite::createWithSpriteFrameName("transitionLoading_right.png");

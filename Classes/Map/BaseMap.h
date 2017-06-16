@@ -2,7 +2,7 @@
 #define _BASE_MAP_H_ 
 
 #include "cocos2d.h"
-#include"Data/GameManager.h" 
+
 USING_NS_CC;
 
 class BaseMap : public Layer

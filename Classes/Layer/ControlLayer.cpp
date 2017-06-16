@@ -33,7 +33,7 @@ bool ControlLayerAttack::initAttackControl()
 
 bool ControlLayerAttack::onTouchBegan(Touch *touch, Event *usused_event)
 {
-	auto player = GameManager::getInstance()->currentPlayer;
+	auto player = GameManager::getInstance()->currentPlayer; 
 	//获取了场景坐标系中触摸的坐标，然后计算了这个点相对于玩家当前位置的偏移量
 	auto touchLocation = touch->getLocation();//射不准因为得到的点是以屏幕左下角为原点的，而人物坐标以地图左下角
 	auto winSize = Director::getInstance()->getWinSize();
@@ -76,38 +76,70 @@ bool ControlLayerMove::initMoveControl()
 	}
 
 	auto keyBoardListener = EventListenerKeyboard::create();
-	keyBoardListener->onKeyPressed = CC_CALLBACK_1(ControlLayerMove::onKeyPressed, this);
+	//keyBoardListener->onKeyPressed = CC_CALLBACK_1(ControlLayerMove::onKeyPressed, this);
+    keyBoardListener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event) 
+	{
+		log("onkeypress");
+		keys[keyCode] = true;
+    };
+
+	keyBoardListener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event)
+	{
+		log("onkeyrelease");
+		keys[keyCode] = false;
+    };
+
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyBoardListener, this);
+
+	this->schedule(schedule_selector(ControlLayerMove::updateState), 0.3f);
 
 	return true;
 }
-void ControlLayerMove::onKeyPressed(EventKeyboard::KeyCode keyCode)
+
+
+
+bool ControlLayerMove::isKeyPressed(EventKeyboard::KeyCode keyCode) 
 {
-	auto player = GameManager::getInstance()->currentPlayer;
-	switch (keyCode)
+	if (keys[keyCode])
 	{
-	case EventKeyboard::KeyCode::KEY_UP_ARROW:
-		keyPressedDuration(EventKeyboard::KeyCode::KEY_UP_ARROW);
-		player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][0]);
-		break;
-	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+		return true;
+	}
+	else 
+	{
+		return false;
+	}
+}
+
+void ControlLayerMove::updateState(float delta)
+{
+	//Node::update(delta);
+	auto player = GameManager::getInstance()->currentPlayer;
+	if (isKeyPressed(EventKeyboard::KeyCode::KEY_LEFT_ARROW)) 
+	{
+		log("key left arrow");
 		keyPressedDuration(EventKeyboard::KeyCode::KEY_LEFT_ARROW);
 		player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][1]);
-		break;
-	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		keyPressedDuration(EventKeyboard::KeyCode::KEY_DOWN_ARROW);
-		player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][2]);
-		break;
-	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+	}
+	else if (isKeyPressed(EventKeyboard::KeyCode::KEY_RIGHT_ARROW))
+	{
 		keyPressedDuration(EventKeyboard::KeyCode::KEY_RIGHT_ARROW);
 		player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][3]);
-		break;
-	default:break;
+	}
+	else if (isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW))
+	{
+		keyPressedDuration(EventKeyboard::KeyCode::KEY_UP_ARROW);
+		player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][0]);
+	}
+	else if (isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW))
+	{
+		keyPressedDuration(EventKeyboard::KeyCode::KEY_DOWN_ARROW);
+		player->setTexture(GameManager::getInstance()->Player_texture[GameManager::getInstance()->currentPlayerState_type][2]);
 	}
 }
 
 void ControlLayerMove::keyPressedDuration(EventKeyboard::KeyCode code)
 {
+	log("keyPressedDuration");
 	bool setPlayerPosition(Point position);
 	auto player = GameManager::getInstance()->currentPlayer;
 	auto playerPos = player->getPosition();

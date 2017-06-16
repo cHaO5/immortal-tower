@@ -19,8 +19,12 @@ class ControlLayerMove: public Layer
 public:
 	virtual bool initMoveControl();
 	static ControlLayerMove* createMoveControl();
-	void onKeyPressed(EventKeyboard::KeyCode keyCode);
+	bool isKeyPressed(EventKeyboard::KeyCode keyCode);
+//	void onKeyPressed(EventKeyboard::KeyCode keyCode);
 	void keyPressedDuration(EventKeyboard::KeyCode code);
+	void updateState(float delta) ;
+private:
+	std::map <cocos2d::EventKeyboard::KeyCode, bool> keys;
 };
 
 

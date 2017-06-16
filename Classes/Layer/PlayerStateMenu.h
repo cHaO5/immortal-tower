@@ -29,5 +29,7 @@ public:
 	void addGameOption();
 	void initGameOption();
 	void removeGameOption();
+
+	GameManager* instance;
 };
 #endif

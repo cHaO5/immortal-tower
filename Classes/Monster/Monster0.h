@@ -13,6 +13,9 @@ public:
 	virtual bool init();
 
 	virtual void Attack(float dt);
+	bool ObstacleDetect(Vec2 position);
+	void toObstacleDetect(float dt);
+
 	virtual void DelayUnschedule(Node * pSender);
 	virtual void IfActionRemove(Node * pSender);
 	virtual void BoundDetect(float dt);
@@ -20,6 +23,7 @@ public:
 private:
 	Vec2 position;
 	Sprite* Monster0_weapon;
+	Vec2 direction;
 };
 
 #endif

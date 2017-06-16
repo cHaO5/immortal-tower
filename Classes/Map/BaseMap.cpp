@@ -9,6 +9,8 @@
 #include"Monster/Monster0.h"
 #include"Monster/Monster1.h"
 #include"Monster/Monster2.h"
+#include"Collection/BaseCollection.h"
+#include"Collection/Collection0.h"
 #include"Scene/GameScene.h"
 
 USING_NS_CC;
@@ -41,6 +43,9 @@ bool BaseMap::onContactBegan(PhysicsContact &contact)//PhysicsContact传递了�
 	if (nodeA != NULL)
 	{
 		log("removeA");
+		Vec2 MonsterPoint = nodeA->getPosition();
+		auto monster = Collection0::create(MonsterPoint);
+		addChild(monster, 3);
 		nodeA->getParent()->removeFromParentAndCleanup(true);
 	}
 	if (nodeB != NULL)
@@ -59,8 +64,8 @@ void BaseMap::LayerFollowPlayer(float t)//需要不停刷新的函数
 
 void BaseMap::toNextLevel(float t)
 {
-	if (GameManager::getInstance()->MonsterClearFlag
-		&& (GameManager::getInstance()->currentPlayer->getPosition().x >= GameManager::getInstance()->Level_EndPosition[GameManager::getInstance()->CurrentLevel][0])
+	if (//GameManager::getInstance()->MonsterClearFlag&&
+		(GameManager::getInstance()->currentPlayer->getPosition().x >= GameManager::getInstance()->Level_EndPosition[GameManager::getInstance()->CurrentLevel][0])
 		&& (GameManager::getInstance()->currentPlayer->getPosition().x <= GameManager::getInstance()->Level_EndPosition[GameManager::getInstance()->CurrentLevel][1])
 		&& (GameManager::getInstance()->currentPlayer->getPosition().y >= GameManager::getInstance()->Level_EndPosition[GameManager::getInstance()->CurrentLevel][2])
 		&& (GameManager::getInstance()->currentPlayer->getPosition().y <= GameManager::getInstance()->Level_EndPosition[GameManager::getInstance()->CurrentLevel][3]))

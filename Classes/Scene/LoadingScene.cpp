@@ -25,7 +25,7 @@ bool LoadingScene::init()
 	}
 	numberOfLoadedRes = 0;
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto back = Sprite::create("Resources/loading.png");
+	auto back = Sprite::create("Scene/loading.png");
 	//back->setRotation(-90.0f);
 	back->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2));
 	addChild(back);
@@ -141,11 +141,6 @@ void LoadingScene::loadSouce()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/map_spritesheet_16_a-hd.plist");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/ingame_gui-hd.plist");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/common_spritesheet_16_a_2-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/map_spritesheet_16_a_3-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/map_spritesheet_32_2-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/map_spritesheet_16_na-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/map_spritesheet_32-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/towers-hd.plist");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/common_spritesheet_16_na_2_IPAD2-hd.plist");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/common_spritesheet_32-hd.plist");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/gui_menu_sprite_campaign_32-hd.plist");
@@ -154,10 +149,7 @@ void LoadingScene::loadSouce()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/common_spritesheet_16_na-hd.plist");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/map_spritesheet_16_na_2-hd.plist");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/cinematics_comic1-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/enemies_desert_3-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/enemies_desert-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/enemies_jungle-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/enemies_jungle_2-hd.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/credits_scene-hd.plist");
 	Scene* scene = GameScene::createScene();//解决文件太大卡顿
 	numberOfLoadedRes++;
 }

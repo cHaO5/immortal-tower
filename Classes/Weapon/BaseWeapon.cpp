@@ -22,7 +22,7 @@ void BaseWeapon::StartListen(int range, Vec2 direction)
 	auto callFunc2 = CallFuncN::create(CC_CALLBACK_1(BaseWeapon::DelayUnschedule, this));
 	auto callFunc1 = CallFuncN::create(CC_CALLBACK_1(BaseWeapon::IfActionRemove, this));//这两个function只有在移动过程中没有击中没有提前停止更新并移除才执行的
 
-	this->schedule(schedule_selector(BaseWeapon::toObstacleDetect, 0.01f));
+	this->schedule(schedule_selector(BaseWeapon::toObstacleDetect), 0.01f);
 
 	//7 创建一个动作将飞镖在2秒内移动到目标位置，然后从场景中移除	
 	baseweapon->runAction(Sequence::create(actionMove, callFunc2, callFunc1, nullptr));

@@ -24,6 +24,7 @@ bool Monster2::init()
 	}
 	log("Monster2 create");
 	baseMonster = Sprite::create(GameManager::getInstance()->Monster_texture[0][2]);
+	baseMonster->setAnchorPoint(Point(0.5, 0.25));
 
 	auto monsterSize = baseMonster->getContentSize();
 	auto physicsBody = PhysicsBody::createBox(Size(monsterSize.width, monsterSize.height), PhysicsMaterial(0.1f, 1.0f, 0.0f));

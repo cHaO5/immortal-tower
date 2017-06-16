@@ -1,7 +1,6 @@
 #include "Layer/GameOption.h"
 #include "Scene/GameScene.h"
 #include "Scene/TransitionGame.h"
-#include "Scene/GameMenuScene.h"
 #include "Data/SoundManager.h"
 #include "Layer/PlayerStateMenu.h"
 #include "SimpleAudioEngine.h"
@@ -138,11 +137,7 @@ void ::GameOption::initButton()
 		Sprite::createWithSpriteFrameName("options_close_0002.png"));
 	close->setCallback([&](Ref *pSender){
 		SoundManager::playClickEffect();
-		/*Director::getInstance()->resume();
-		this->runAction(Sequence::create(
-			MoveBy::create(0.2f,Point(0,500))
-			,CallFuncN::create(CC_CALLBACK_0(Layer::removeFromParent, this))
-			,NULL));*/
+
 		static_cast<PlayerStateMenu*>(this->getParent())->removeGameOption();
 		
 	});

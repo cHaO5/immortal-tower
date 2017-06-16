@@ -30,6 +30,7 @@ void Slider::bloodCallBack(float dt)
 	MonsterZeroDamage();
 	MonsterOneDamage();
 	MonsterTwoDamage();
+
 }
 
 void Slider::IncreaseBlood()

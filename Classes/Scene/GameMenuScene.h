@@ -12,7 +12,7 @@ public:
 	virtual bool init();
 	CREATE_FUNC(GameMenuScene);
 	Sprite* bgSprite;
-
+	//GameManager *instance;
 };
 
 #endif
