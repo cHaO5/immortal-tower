@@ -12,7 +12,7 @@ bool BaseCollection::init()
 
 void BaseCollection::StartListen()
 {
-	this->schedule(schedule_selector(BaseCollection::PlayerDetect), 0.01f);
+	this->schedule(schedule_selector(BaseCollection::PlayerDetect), 0.05f);
 }
 
 void BaseCollection::PlayerDetect(float dt)

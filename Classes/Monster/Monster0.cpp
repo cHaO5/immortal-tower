@@ -50,13 +50,13 @@ void Monster0::Attack(float dt)//不同怪的攻击方式不同在这里重写攻击方式
 	monsterattack->setPosition(baseMonster->getPosition());
 	addChild(monsterattack);
 	Monster0_weapon = monsterattack;
-	this->schedule(schedule_selector(Monster0::BoundDetect), 0.01f);
+	this->schedule(schedule_selector(Monster0::BoundDetect), 0.05f);
 
 	direction = Monster0_weapon ->getPosition() - GameManager::getInstance()->currentPlayer->getPosition();
 	direction.normalize();
 
-	this->schedule(schedule_selector(Monster0::toObstacleDetect), 0.01f);
-
+	this->schedule(schedule_selector(Monster0::toObstacleDetect), 0.05f);//时间不能太短否则来不及停止更新会0xDDD
+	
 	log("before weapon move");
 	auto actionMove = MoveTo::create(1.0f, GameManager::getInstance()->currentPlayer->getPosition());
 	auto callFunc2 = CallFuncN::create(CC_CALLBACK_1(Monster0::DelayUnschedule, this));
@@ -67,8 +67,8 @@ void Monster0::Attack(float dt)//不同怪的攻击方式不同在这里重写攻击方式
 
 void Monster0::toObstacleDetect(float dt)
 {
-	log("to Obstacle detect");
-	auto  position = Monster0_weapon ->getPosition() + direction * 10;
+	log("to monster0_weapon Obstacle detect");
+	auto  position = Monster0_weapon ->getPosition() + direction * 70;
 	if (ObstacleDetect(position))
 	{
 		log("true");

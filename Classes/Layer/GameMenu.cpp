@@ -26,6 +26,7 @@ bool GameMenu::init()
 	{
 		SoundManager::playClickEffect();
 		GameManager::getInstance()->currentPlayerState_type = 0;
+		GameManager::getInstance()->initCurrrent(GameManager::getInstance()->currentPlayerState_type);
 		UserDefault::getInstance()->setIntegerForKey(String::createWithFormat("Slot%d_heroType", GameManager::getInstance()->SLOTNUM)->getCString(), 0);
 		Director::getInstance()->replaceScene(TransitionGame::create(1.0f, GameScene::createScene()));
 	});
@@ -34,6 +35,7 @@ bool GameMenu::init()
 	{
 		SoundManager::playClickEffect();
 		GameManager::getInstance()->currentPlayerState_type = 1;
+		GameManager::getInstance()->initCurrrent(GameManager::getInstance()->currentPlayerState_type);
 		UserDefault::getInstance()->setIntegerForKey(String::createWithFormat("Slot%d_heroType", GameManager::getInstance()->SLOTNUM)->getCString(), 1);
 		Director::getInstance()->replaceScene(TransitionGame::create(1.0f, GameScene::createScene()));
 	});
@@ -41,6 +43,7 @@ bool GameMenu::init()
 	{
 		SoundManager::playClickEffect();
 		GameManager::getInstance()->currentPlayerState_type = 2;
+		GameManager::getInstance()->initCurrrent(GameManager::getInstance()->currentPlayerState_type);
 		UserDefault::getInstance()->setIntegerForKey(String::createWithFormat("Slot%d_heroType", GameManager::getInstance()->SLOTNUM)->getCString(), 2);
 		Director::getInstance()->replaceScene(TransitionGame::create(1.0f, GameScene::createScene()));
 	});

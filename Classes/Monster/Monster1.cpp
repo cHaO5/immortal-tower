@@ -51,7 +51,7 @@ void Monster1::Attack(float dt)//不同怪的攻击方式不同在这里重写攻击方式
 	monsterattack->setPosition(baseMonster->getPosition());
 	addChild(monsterattack);
 	Monster1_weapon = monsterattack;
-	this->schedule(schedule_selector(Monster1::BoundDetect), 0.01f);
+	this->schedule(schedule_selector(Monster1::BoundDetect), 0.05f);
 	log("before weapon move");
 	auto actionMove = MoveTo::create(1.0f, GameManager::getInstance()->currentPlayer->getPosition());
 	auto callFunc2 = CallFuncN::create(CC_CALLBACK_1(Monster1::DelayUnschedule, this));

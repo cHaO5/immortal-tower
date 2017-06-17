@@ -17,26 +17,6 @@ TransitionGame * TransitionGame::create(float t, Scene *scene)
 	return NULL;
 }
 
-TransitionGame * TransitionGame::createWithRenderTexture(float t, Scene *scene, RenderTexture *sqr)
-{
-	TransitionGame * pScene = new TransitionGame();
-	if (pScene && pScene->initWithDuration(t, scene))
-	{
-		pScene->initRenderTexture(sqr);
-		pScene->autorelease();
-		return pScene;
-	}
-	CC_SAFE_DELETE(pScene);
-	return NULL;
-}
-
-void TransitionGame::initRenderTexture(RenderTexture *sqr)
-{
-	auto _spr = Sprite::createWithTexture(sqr->getSprite()->getTexture());
-	_spr->setPosition(Point(Director::getInstance()->getVisibleSize().width / 2, Director::getInstance()->getVisibleSize().height / 2));
-	addChild(_spr);
-}
-
 TransitionGame::TransitionGame()
 {
 	m_FinishCnt = 0;
@@ -48,7 +28,6 @@ TransitionGame::~TransitionGame()
 
 void TransitionGame::onEnter()
 {
-
 	//要切入的场景
 	_inScene->setVisible(false);
 	TransitionScene::onEnter();
@@ -63,37 +42,20 @@ void TransitionGame::onEnter()
 
 	auto pLeft = Sprite::create("Scene/loadingleft.png");
 	log("1eft");
-	//pLeft->setScaleX(visibleSize.width / 960);
 	auto pRight = Sprite::create("Scene/loadingright.png");
 	log("right");
-	//pRight->setScaleX(visibleSize.width / 960);
-	//auto pLeft2 = Sprite::createWithSpriteFrameName("transitionLoading_left.png");
-	//auto pRight2 = Sprite::createWithSpriteFrameName("transitionLoading_right.png");
 
 	pLeft->setAnchorPoint(Point(1, 0.5));
 	pRight->setAnchorPoint(Point(0, 0.5));
 
-	//pLeft2->setAnchorPoint(Point(1, 0.5));
-	//pRight2->setAnchorPoint(Point(0, 0.5));
-
-	//pLeft2->setPosition(Point(pLeft->getContentSize().width, pLeft->getContentSize().height / 2));
-	//pRight2->setPosition(Point(0, pRight->getContentSize().height / 2));
-
 	addChild(pLeft, 1);
 	addChild(pRight, 1);
 
-	//pRight->setFlippedX(true);
 	pLeft->setPosition(stLeftBegin);
 	pRight->setPosition(stRightBegin);
 
-	//pLeft->addChild(pLeft2);
-	//pRight->addChild(pRight2);
 	auto pActionLeft = MoveTo::create(_duration / 3, stLeftEnd);
-	//右边的向左移动活动
 	auto pActionRight = MoveTo::create(_duration / 3, stRightEnd);
-	//原地不动
-	auto pActionLeft1 = MoveTo::create(_duration / 3, stLeftEnd);
-	auto pActionRight1 = MoveTo::create(_duration / 3, stRightEnd);
 
 	auto pActionLeft2 = MoveTo::create(_duration / 3, stLeftBegin);
 	auto pActionRight2 = MoveTo::create(_duration / 3, stRightBegin);
@@ -102,6 +64,7 @@ void TransitionGame::onEnter()
 	{
 		SimpleAudioEngine::getInstance()->playEffect("sound/GUITransitionOpen.wav");
 	}
+
 	pLeft->runAction(Sequence::create(
 		pActionLeft,
 		CallFuncN::create(CC_CALLBACK_0(TransitionGame::OnSencondActionFinish, this)),

@@ -138,15 +138,9 @@ void LoadingScene::loadSouce()
 	numberOfLoadedRes++;
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/mainmenu_spritesheet_32_1-hd.plist");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/mainmenu_spritesheet_32_2-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/map_spritesheet_16_a-hd.plist");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/ingame_gui-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/common_spritesheet_16_a_2-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/common_spritesheet_16_na_2_IPAD2-hd.plist");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/common_spritesheet_32-hd.plist");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/gui_menu_sprite_campaign_32-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/gui_menu_sprite_iron_32-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/gui_menu_sprite_heroic_32-hd.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/common_spritesheet_16_na-hd.plist");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/map_spritesheet_16_na_2-hd.plist");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/cinematics_comic1-hd.plist");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Resources/credits_scene-hd.plist");

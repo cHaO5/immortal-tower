@@ -15,9 +15,9 @@ bool Slider::init()
 	blood = ProgressTimer::create(Sprite::create("Resources/blood.png"));
 	blood->setPosition(bloodBg->getPosition().x+2, bloodBg->getPosition().y - 1); //
 	blood->setType(ProgressTimer::Type::BAR);
-	blood->setPercentage(100.0f);//initiate
-	blood->setBarChangeRate(Vec2(1, 0));
-	blood->setMidpoint(Vec2(0, 1));
+	blood->setMidpoint(Vec2(0, 0.5));
+	blood->setBarChangeRate(Vec2(0.5, 0));	
+    blood->setPercentage((GameManager::getInstance()->currentPlayerState_life / GameManager::getInstance()->Player_life[GameManager::getInstance()->currentPlayerState_type]) * 100);
 	addChild(blood);
 	
 	this->schedule(schedule_selector(Slider::bloodCallBack),0.01f);
@@ -58,11 +58,14 @@ void Slider::MonsterZeroDamage()
 		GameManager::getInstance()->currentPlayerState_life -= GameManager::getInstance()->Monster_damage[0] * GameManager::getInstance()->PlayerReduceBlood[0];
 		if (GameManager::getInstance()->currentPlayerState_life >= 0)
 		{
+			log("1111111111111");
+			log("%f", GameManager::getInstance()->currentPlayerState_life);
 			log("%f", GameManager::getInstance()->currentPlayerState_life / GameManager::getInstance()->Player_life[GameManager::getInstance()->currentPlayerState_type]);
 			blood->setPercentage((GameManager::getInstance()->currentPlayerState_life/ GameManager::getInstance()->Player_life[GameManager::getInstance()->currentPlayerState_type])*100);
 		}
 		else
 		{
+			log("222222222222");
 			blood->setPercentage(0);
 		}
 		GameManager::getInstance()->PlayerReduceBlood[0] = 0;

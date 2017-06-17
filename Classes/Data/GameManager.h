@@ -21,7 +21,7 @@ public:
 public:
 	//playerstate
 	int currentPlayerState_type = 0;
-	float currentPlayerState_life = 1000.0;//转换场景前记得返回
+	float currentPlayerState_life = 100.0;//转换场景前记得返回
 	int currentPlayerState_speed = 128;//生成人物的时候记得设定
 	//Vec2 currentPlayerState_Position;getposition
 	Sprite* currentPlayer = NULL;
@@ -45,7 +45,7 @@ public:
 
 	//控制人物的血量变化
 	int PlayerIncreaseBlood = 0;
-	int PlayerReduceBlood[3] = { 0 };//被Monster0攻击到一次[0]加一//被Monster1攻击到一次[1]加一//被Monster2攻击到一次[2]加一
+	int PlayerReduceBlood[3] = { 0,0,0 };//被Monster0攻击到一次[0]加一//被Monster1攻击到一次[1]加一//被Monster2攻击到一次[2]加一
 	
 	int currentWeaponType = 0;//player's weapontype
 	int currentWeaponDamage = 0;
@@ -240,6 +240,7 @@ public:
 	int LEVEL;
 
 	void setInstance(int tag);
+	void initCurrrent(int type);
 private:
 	static GameManager * instance;
 };

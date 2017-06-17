@@ -14,7 +14,6 @@ bool Player2::init()
 	addChild(Player);
 
 	GameManager::getInstance()->currentPlayer = Player;
-	GameManager::getInstance()->currentPlayerState_life = GameManager::getInstance()->Player_life[2];
 	GameManager::getInstance()->currentPlayerState_speed = GameManager::getInstance()->Player_speed[2];
 
 	attackMonster();

@@ -16,3 +16,9 @@ void GameManager::setInstance(int tag)
 	sprintf(SLOTX_ISEXIT, "Slot%d", tag);
 }
 
+void GameManager::initCurrrent(int type)
+{
+	currentPlayerState_life = Player_life[type];
+	currentPlayerState_speed = Player_speed[type];
+}
+

@@ -10,7 +10,6 @@ public:
 	virtual ~TransitionGame();
 	void onEnter();
 	static TransitionGame *create(float t, Scene *scene);
-	static TransitionGame *createWithRenderTexture(float t, Scene *scene, RenderTexture *sqr);
 private:
 	void initRenderTexture(RenderTexture *sqr);
 	void LRFinish(void);
