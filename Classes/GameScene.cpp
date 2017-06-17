@@ -6,6 +6,7 @@
 #include "PlayerStateMenu.h"
 #include "GameManager.h"
 #include "SimpleAudioEngine.h"
+#include "GameManager.h"
 
 Scene* GameScene::createScene()
 {
@@ -24,8 +25,13 @@ Scene* GameScene::createScene()
 
 bool GameScene::init()
 {
-    //log("22222222222222333333333333");
+    log("22222222222222333333333333");
     CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+    auto path = FileUtils::getInstance()->getWritablePath();
+    cout << path << endl;
+    //GameManager::getInstance()->loadGame();
+    //GameManager::getInstance()->reLoadGame(0);
+    //GameManager::getInstance()->saveData(0);
     
     auto playerStateMenu = PlayerStateMenu::create();
     playerStateMenu->initGameOption();
@@ -35,6 +41,8 @@ bool GameScene::init()
     switch (GameManager::getInstance()->CurrentLevel)
     {
         case(0):game = Level0::create();
+            //GameManager::getInstance()->initWIthJsonFile("archive.json");
+            //GameManager::getInstance()->reloadGame();
             addChild(game,0);//加到scene上
             return true;
             break;
