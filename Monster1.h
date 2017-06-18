@@ -16,7 +16,10 @@ public:
 	virtual void DelayUnschedule(Node * pSender);
 	virtual void IfActionRemove(Node * pSender);
 	virtual void BoundDetect(float dt);
-
+    virtual void StartListen();
+    virtual void FollowMove(float dt);
+    virtual void Move(Node *pSender);
+    
     int type = 1;
 private:
 	Vec2 position;
