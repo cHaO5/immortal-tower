@@ -9,10 +9,10 @@
 #include "Monster0.h"
 #include "Monster1.h"
 #include "Monster2.h"
+#include "Boss.hpp"
 #include "GameScene.h"
 
 USING_NS_CC;
-
 bool BaseMap::init()
 {
 	if (!Layer::init())
@@ -46,23 +46,63 @@ bool BaseMap::onContactBegan(PhysicsContact &contact)//PhysicsContact传递了�
 	log("onContactBegan");
 	auto nodeA = contact.getShapeA()->getBody()->getNode();
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
-	if (nodeA != NULL)
-	{
+    auto pa=nodeA->getTag();
+    auto pb=nodeB->getTag();
+    if (pb==NULL) pb=0;
+    if (pa==NULL) pa=0;
+    if (pa>0 && pa<=4)
+    {
+        if (nodeB != NULL)
+        {
+            nodeB->getParent()->removeFromParentAndCleanup(true);
+        }
+        GameManager::getInstance()->Monster_life[pa-1]--;
+        if (GameManager::getInstance()->Monster_life[pa-1]==0)
+        {
+            if (nodeA != NULL)
+            {
+                
+                log("removeA");
+                int monsterx=(int)nodeA->getPosition().x / 128;
+                int monstery=(int)nodeA->getPosition().y / 128;
+                GameManager::getInstance()->Level0LogicMap[monsterx][monstery]=0;
+                nodeA->getParent()->removeFromParentAndCleanup(true);
+                addBlood(monsterx, monstery);
+                if (pa==1) GameManager::getInstance()->Monster_life[pa-1]=1;
+                if (pa==2) GameManager::getInstance()->Monster_life[pa-1]=2;
+                if (pa==3) GameManager::getInstance()->Monster_life[pa-1]=4;
+                if (pa==4) GameManager::getInstance()->Monster_life[pa-1]=30;
+            }
+        }
         
-		log("removeA");
-        int monsterx=(int)nodeB->getPosition().x / 128;
-        int monstery=(int)nodeB->getPosition().y / 128;
-        GameManager::getInstance()->Level0LogicMap[monsterx][monstery]=0;
-		nodeA->getParent()->removeFromParentAndCleanup(true);
-        addBlood(monsterx, monstery);
-        
-	}
-	if (nodeB != NULL)
-	{
-		log("removeB");
-        
-		nodeB->getParent()->removeFromParentAndCleanup(true);
     }
+    else if (pb>0 && pb<=4)
+        {
+            if (nodeA != NULL)
+            {
+                nodeA->getParent()->removeFromParentAndCleanup(true);
+            }
+            GameManager::getInstance()->Monster_life[pb-1]--;
+            if (GameManager::getInstance()->Monster_life[pb-1]==0)
+            {
+                if (nodeB != NULL)
+                {
+                    
+                    log("removeA");
+                    int monsterx=(int)nodeB->getPosition().x / 128;
+                    int monstery=(int)nodeB->getPosition().y / 128;
+                    GameManager::getInstance()->Level0LogicMap[monsterx][monstery]=0;
+                    GameManager::getInstance()->Level0LogicMap0[monsterx][monstery]=0;
+                    nodeB->getParent()->removeFromParentAndCleanup(true);
+                    addBlood(monsterx, monstery);
+                    if (pb==1) GameManager::getInstance()->Monster_life[pb-1]=1;
+                    if (pb==2) GameManager::getInstance()->Monster_life[pb-1]=2;
+                    if (pb==3) GameManager::getInstance()->Monster_life[pb-1]=4;
+                    if (pb==4) GameManager::getInstance()->Monster_life[pb-1]=30;
+                }
+            }
+            
+        }
 	return true;
 }
 
@@ -111,14 +151,22 @@ void BaseMap::addMonster()
 			    createMonster(type,i);
 		    }
 		   break;
-	  /*case(2):MonsterCreateMap = GameManager::getInstance()->level2_MonsterMap;
+	  case(2):MonsterCreateMap = GameManager::getInstance()->level2_MonsterMap;
 		  for (int i = 0; i < GameManager::getInstance()->level_MonsterMapSize[2]; i++)
 		  {
 			  log("add_2");
 			  auto type = MonsterCreateMap[i];
 			  createMonster(type,i);
 		  }
-		  break;*/
+		  break;
+        case(3):MonsterCreateMap = GameManager::getInstance()->level2_MonsterMap;
+            for (int i = 0; i < GameManager::getInstance()->level_MonsterMapSize[3]; i++)
+            {
+                log("add_3");
+                auto type = MonsterCreateMap[i];
+                createMonster(type,i);
+            }
+            break;
 	default:break;
 	}
 }
@@ -134,9 +182,12 @@ void BaseMap::createMonster(int type ,int i)
 	case(1):monster = Monster1::createMonster(GameManager::getInstance()->ValidPosition_level1[i]);//Monster1
 			addChild(monster,3);
 			break;
-	/*case(2):monster = Monster2::createMonster(GameManager::getInstance()->ValidPosition_level2[i]);//Monster2
+	case(2):monster = Monster2::createMonster(GameManager::getInstance()->ValidPosition_level2[i]);//Monster2
 			addChild(monster,3);
-			break;*/
+			break;
+    case(3):monster = Boss::createMonster(GameManager::getInstance()->ValidPosition_level2[i]);//Monster2
+            addChild(monster,3);
+            break;
 	default:
 			break;
      }

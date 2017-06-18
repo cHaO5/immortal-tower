@@ -19,7 +19,6 @@ public:
 	virtual void DelayUnschedule(Node * pSender);
 	virtual void IfActionRemove(Node * pSender);
 	virtual void BoundDetect(float dt);
-    
 
     int type = 0;
 private:
