@@ -1,5 +1,7 @@
 #include"BaseMonster.h"
 #include"GameManager.h"
+#include "AnimationManager.hpp"
+#include"ControlLayer.h"
 #include<math.h>
 #include<cmath>
 #include<queue>
@@ -23,7 +25,7 @@ bool BaseMonster::init()
 void BaseMonster::StartListen()
 {
 	log("Monater StartListen create");
-	this->schedule(schedule_selector(BaseMonster::FollowMove), 0.3f);
+	this->schedule(schedule_selector(BaseMonster::FollowMove), 1.0f);
 }
 
 void BaseMonster::FollowMove(float dt)
@@ -56,10 +58,30 @@ void BaseMonster::FollowMove(float dt)
 void BaseMonster::Move(Node *pSender)//此处加入ai算法
 {
 	log("Monater 1111111111 Move create");
-    if (GameManager::getInstance()->currentPlayer->getPosition().x - baseMonster->getPosition().x<0) baseMonster->setTexture(GameManager::getInstance()->Monster_texture[1][1]);
-    if (GameManager::getInstance()->currentPlayer->getPosition().x - baseMonster->getPosition().x>=0) baseMonster->setTexture(GameManager::getInstance()->Monster_texture[1][3]);
-    if (GameManager::getInstance()->currentPlayer->getPosition().y - baseMonster->getPosition().y<-128*3) baseMonster->setTexture(GameManager::getInstance()->Monster_texture[1][2]);
-    if (GameManager::getInstance()->currentPlayer->getPosition().y - baseMonster->getPosition().y>128*3) baseMonster->setTexture(GameManager::getInstance()->Monster_texture[1][0]);
+    Vec2 endPos = Vec2(GameManager::getInstance()->currentPlayer->getPosition().x, GameManager::getInstance()->currentPlayer->getPosition().y);
+    Vec2 startPos = Vec2(baseMonster->getPosition().x, baseMonster->getPosition().y);
+    Vec2 dis = endPos - startPos;
+    auto arc=Vec2(dis.y, dis.x).getAngle();
+    
+    Vector< SpriteFrame* > frameVec;
+    if (arc > -0.3926 && arc <= 0.3926) {  //turn U
+        baseMonster->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("soldierU")));
+    } else if (arc > 0.3926 && arc <= 1.1781) {  //turn UR
+        baseMonster->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("soldierUR")));
+    } else if (arc > 1.1781 && arc <= 1.9635) {  //turn R
+        baseMonster->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("soldierR")));
+    } else if (arc > 1.9635 && arc <= 2.7489) {  //turn DR
+        baseMonster->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("soldierDR")));
+    } else if (arc > 2.7489 || arc <= -2.7489) {  //turn D
+        baseMonster->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("soldierD")));
+    } else if (arc > -1.1781 && arc <= -0.3926) {  //turn UL
+        baseMonster->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("soldierUL")));
+    } else if (arc > -1.9635 && arc <= -1.1781) {  //turn L
+        baseMonster->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("soldierL")));
+    } else if (arc > -2.7489 && arc <= -1.9635) {  //turn DL
+        baseMonster->runAction(Animate::create(AnimationCache::getInstance()->getAnimation("soldierDL")));
+    }
+
 
     int Map[30][30];
     for (int i=0;i<30;i++)
@@ -79,8 +101,8 @@ void BaseMonster::Move(Node *pSender)//此处加入ai算法
     node cur,next,ans[30][30];
     cur.x=tempMonsterX;
     cur.y=tempMonsterY;
-    GameManager::getInstance()->Level0LogicMap[cur.y][cur.x]=0;
-    GameManager::getInstance()->Level0LogicMap0[cur.y][cur.x]=0;
+    auto initX=cur.x;
+    auto initY=cur.y;
     cur.step=0;
     log("%dggg%d",cur.x,cur.y);
     Que.push(cur);
@@ -163,6 +185,8 @@ void BaseMonster::Move(Node *pSender)//此处加入ai算法
     log("%dggggggggggg%d",tempPlayerX,tempPlayerY);
     
     //finalX++; finalY++;
+    GameManager::getInstance()->Level0LogicMap[initY][initX]=0;
+    GameManager::getInstance()->Level0LogicMap0[initY][initX]=0;
     GameManager::getInstance()->Level0LogicMap0[finalY][finalX]=10;
     GameManager::getInstance()->Level0LogicMap[finalY][finalX]=1;
     finalY=30-finalY;
