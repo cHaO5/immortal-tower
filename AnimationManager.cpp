@@ -91,7 +91,10 @@ void AnimationManager::init_player3Attacked()
     AnimationCache::getInstance()->addAnimation(createAnimation("player3UR.png" ,"player3attackedUR.png", 0.3f), "player3attackedUR" );
 }
 
-
+void AnimationManager::init_boss_appear()
+{
+    AnimationCache::getInstance()->addAnimation(createAnimation("boss_appear%d.png" , 1, 10, 0.1f,0.1f), "bossappear" );
+}
 
 
 Animation* AnimationManager::createAnimation(const char* prefixName, int start,int end, float delay)
@@ -123,10 +126,40 @@ Animation* AnimationManager::createAnimation(const char* prefixName, int start,i
     return animation;
 }
 
+Animation* AnimationManager::createAnimation(const char* prefixName, int start,int end, float delay, float flag)
+{
+    Vector<SpriteFrame*> animFrames;
+    //log("Animation");
+    
+    for (int i = start; i <= end; i++)
+    {
+        log("%s",prefixName);
+        auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(StringUtils::format(prefixName,i));
+        if(frame!=nullptr)
+        {
+            animFrames.pushBack(frame);
+        }
+    }
+    for (int i = end-1; i >=start; i--)
+    {
+        log("%s",prefixName);
+        auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(StringUtils::format(prefixName,i));
+        if(frame!=nullptr)
+        {
+            animFrames.pushBack(frame);
+        }
+    }
+    Animation* animation=Animation::createWithSpriteFrames(animFrames);
+    animation->setLoops(1);
+    animation->setDelayPerUnit(delay);
+
+    return animation;
+}
+
+
 Animation* AnimationManager::createAnimation(const char* prefixName1, const char* prefixName2, float delay)
 {
     Vector<SpriteFrame*> animFrames;
-     log("你测定的1");
     auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(prefixName2);
     if(frame!=nullptr) animFrames.pushBack(frame);
     frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(prefixName1);

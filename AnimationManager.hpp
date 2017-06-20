@@ -17,7 +17,9 @@ public:
     void init_player1Attacked();
     void init_player2Attacked();
     void init_player3Attacked();
+    void init_boss_appear();
     Animation* createAnimation(const char* prefixName, int start,int end, float delay);
+    Animation* createAnimation(const char* prefixName, int start,int end, float delay,float flag);
     Animation* createAnimation(const char* prefixName1, const char* prefixName2, float delay);
     
 private:
